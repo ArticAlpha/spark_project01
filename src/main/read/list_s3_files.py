@@ -1,5 +1,5 @@
 from http.client import responses
-from decrypt_s3_client_object import get_s3_client
+from src.main.utility.decrypt_s3_client_object import get_s3_client
 from loguru import logger
 
 #configure loguru to log messages to a file
@@ -12,10 +12,10 @@ def list_files_in_bucket(bucket_name):
     """
     try:
         # get the s3 client
-        logger.info("getting the s3 client")
+        logger.info("------getting the s3 client------")
         s3_client = get_s3_client()
         if s3_client is None:
-            print("failed to return s3 client")
+            logger.error("------failed to return s3 client------")
             return []
 
         #retrieve the list of files
@@ -24,16 +24,17 @@ def list_files_in_bucket(bucket_name):
         #Extract file names(keys) if objects are present
         if 'Contents' in response:
             file_names = [obj['Key'] for obj in response['Contents']]
-            print(f"files in bucket: {bucket_name}")
+            # logger.info(f"files in bucket: {bucket_name}")
             for file in file_names:
                 print(file)
+
         else:
-            print(f"no files found in the bucket: {bucket_name}")
+            logger.error(f"no files found in the bucket: {bucket_name}")
             return []
 
     except Exception as e:
-        print(str(e))
+        logger.error(str(e))
         return None
 
-
-print(list_files_in_bucket("sparks3bucketproj1"))
+if __name__=="__main__":
+    list_files_in_bucket("sparks3bucketprojj1")

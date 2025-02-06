@@ -14,7 +14,7 @@ def decrypt_credentials():
     try:
         #read the encryption key
         logger.info("-------Starting decryption and initiating the s3 client-------")
-        key_path = f"{base_path}encryptionn.key"
+        key_path = f"{base_path}encryption.key"
         with open(key_path,"rb") as key_file:
             key=key_file.read()
         fernet=Fernet(key)
