@@ -44,7 +44,7 @@ def encrypt_credentials():
 
     except Exception as e:
         logger.error(f"Error encrypting the aws keys")
-        # print((f"Error encrypting the aws keys {str(e)}"))
+        # print((f"Error encrypting the aws keys {str(e)}")) #can be removed
         raise
 
 
