@@ -1,0 +1,14 @@
+2025-02-05 22:52:52.077 | INFO     | __main__:encrypt_credentials:15 - starting encryption for aws credentials
+2025-02-05 22:52:52.081 | SUCCESS  | __main__:encrypt_credentials:44 - AWS credentials encrypted and saved to credentials.enc.
+        
+2025-02-05 22:52:57.207 | INFO     | __main__:encrypt_credentials:15 - starting encryption for aws credentials
+2025-02-05 22:52:57.211 | SUCCESS  | __main__:encrypt_credentials:44 - AWS credentials encrypted and saved to credentials.enc.
+        
+2025-02-05 22:53:09.965 | INFO     | __main__:encrypt_credentials:15 - starting encryption for aws credentials
+2025-02-05 22:53:09.966 | ERROR    | __main__:encrypt_credentials:48 - Error encrypting the aws keys
+2025-02-06 10:34:29.267 | INFO     | __main__:encrypt_credentials:15 - starting encryption for aws credentials
+2025-02-06 10:34:29.272 | SUCCESS  | __main__:encrypt_credentials:44 - AWS credentials encrypted and saved to credentials.enc.
+        
+2025-02-06 10:34:47.108 | INFO     | __main__:encrypt_credentials:15 - starting encryption for aws credentials
+2025-02-06 10:34:47.123 | SUCCESS  | __main__:encrypt_credentials:44 - AWS credentials encrypted and saved to credentials.enc.
+        
