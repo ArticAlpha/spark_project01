@@ -1,0 +1,9 @@
+2025-02-06 10:48:50.491 | INFO     | __main__:decrypt_credentials:16 - -------Starting decryption and initiating the s3 client-------
+2025-02-06 10:48:50.500 | INFO     | __main__:decrypt_credentials:28 - Decryption of aws credentials is successful
+2025-02-06 10:51:32.697 | INFO     | __main__:decrypt_credentials:16 - -------Starting decryption and initiating the s3 client-------
+2025-02-06 10:51:32.703 | INFO     | __main__:decrypt_credentials:28 - Decryption of aws credentials is successful
+2025-02-06 10:51:32.703 | INFO     | __main__:get_s3_client:44 - ------Initiating s3 client------
+2025-02-06 10:51:32.856 | INFO     | __main__:get_s3_client:51 - ------Successfully got the s3 client------
+2025-02-06 10:52:39.506 | INFO     | __main__:decrypt_credentials:16 - -------Starting decryption and initiating the s3 client-------
+2025-02-06 10:52:39.507 | ERROR    | __main__:decrypt_credentials:32 - Error decrypting the data:[Errno 2] No such file or directory: 'E:\\spark_project01\\resources\\dev\\encryptionn.key'
+2025-02-06 10:52:39.507 | ERROR    | __main__:get_s3_client:55 - Error creating s3 client: Failed to get decrypted AWS credentials

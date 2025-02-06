@@ -1,10 +1,11 @@
 import ast
 import boto3
-
 from cryptography.fernet import Fernet
+from loguru import logger
 
 base_path = "E:\\spark_project01\\resources\\dev\\"
-
+#configure loguru to log messages to a file
+logger.add("E:\\spark_project01\\src\\main\\logs\\decryption.log", rotation="10 MB", level="INFO")
 def decrypt_credentials():
     """
     :return: decrypted AWS credentials as dictionary from the encrypted file.
@@ -12,7 +13,8 @@ def decrypt_credentials():
 
     try:
         #read the encryption key
-        key_path = f"{base_path}encryption.key"
+        logger.info("-------Starting decryption and initiating the s3 client-------")
+        key_path = f"{base_path}encryptionn.key"
         with open(key_path,"rb") as key_file:
             key=key_file.read()
         fernet=Fernet(key)
@@ -23,10 +25,11 @@ def decrypt_credentials():
             encrypted_data=enc_file.read()
 
         decrypted_data = fernet.decrypt(encrypted_data).decode()
+        logger.info("------Decryption of aws credentials is successful------")
         return ast.literal_eval(decrypted_data)  #convert string to dict
 
     except Exception as e:
-        print(f"Error decrypting the data:{e}")
+        logger.error(f"Error decrypting the data:{e}")
 
 
 def get_s3_client():
@@ -38,18 +41,18 @@ def get_s3_client():
         if not credentials:
             raise ValueError("Failed to get decrypted AWS credentials")
 
-
+        logger.info("------Initiating s3 client------")
         # create a session and s3 client
         session = boto3.Session(
             aws_access_key_id = credentials["aws_access_key_id"],
             aws_secret_access_key = credentials["aws_secret_access_key"],
             region_name = "eu-north-1"
         )
-        # print("successfully got the s3 client")
+        logger.info("------Successfully got the s3 client------")
         return session.client('s3')
 
     except  Exception as e:
-        print(f"Error creating s3 client: {str(e)}")
+        logger.error(f"Error creating s3 client: {str(e)}")
         return None
 
 

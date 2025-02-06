@@ -4,7 +4,7 @@ import os
 from loguru import logger
 
 #configure loguru to log messages to a file
-logger.add("E:\\spark_project01\\src\\main\\logs\\encryption_decryption.log", rotation="10 MB", level="INFO")
+logger.add("E:\\spark_project01\\src\\main\\logs\\encryption.log", rotation="10 MB", level="INFO")
 base_path = "E:\\spark_project01\\resources\\dev\\"
 
 #Encrypt AWS credentials and save them to a file

@@ -1,5 +1,9 @@
 from http.client import responses
 from decrypt_s3_client_object import get_s3_client
+from loguru import logger
+
+#configure loguru to log messages to a file
+logger.add("E:\\spark_project01\\src\\main\\logs\\list_files.log", rotation="10 MB", level="INFO")
 
 def list_files_in_bucket(bucket_name):
     """
@@ -8,6 +12,7 @@ def list_files_in_bucket(bucket_name):
     """
     try:
         # get the s3 client
+        logger.info("getting the s3 client")
         s3_client = get_s3_client()
         if s3_client is None:
             print("failed to return s3 client")
