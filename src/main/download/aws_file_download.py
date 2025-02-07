@@ -20,7 +20,8 @@ class GetFiles:
         if self.s3_client is None:
             logger.error("------ failed to return s3 client ------")
             raise
-    def list_files(self):
+
+    def get_file_names(self):
         """
         :return: list of file names present in the bucket
         """
@@ -47,12 +48,12 @@ class GetFiles:
     def download_files(self,local_file_path):
         """
         :param local_file_path: path where we need to save s3 files
-        :return: True if files download successfully and logging otherwise False and log the error
+        :return: True if files download successfully and log the steps otherwise False and log the error
         """
         try:
             start_time=time.time()
             logger.info("------ Starting the files download ------")
-            file_names=self.list_files()
+            file_names=self.get_file_names()
 
             for file_name in file_names:
                 self.s3_client.download_file(self.bucket_name,file_name,os.path.join(local_file_path,file_name))
