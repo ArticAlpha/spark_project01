@@ -50,3 +50,57 @@
 2025-02-06 16:07:19.697 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:44 - ------Initiating s3 client------
 2025-02-06 16:07:19.776 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:51 - ------Successfully got the s3 client------
 2025-02-06 16:07:21.155 | ERROR    | __main__:list_files_in_bucket:36 - An error occurred (NoSuchBucket) when calling the ListObjectsV2 operation: The specified bucket does not exist
+2025-02-07 13:17:57.749 | INFO     | src.main.read.list_s3_files:list_files_in_bucket:15 - ------getting the s3 client------
+2025-02-07 13:17:57.783 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:16 - -------Starting decryption and initiating the s3 client-------
+2025-02-07 13:17:57.865 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:28 - ------Decryption of aws credentials is successful------
+2025-02-07 13:17:57.866 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:44 - ------Initiating s3 client------
+2025-02-07 13:17:57.966 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:51 - ------Successfully got the s3 client------
+2025-02-07 13:17:59.544 | ERROR    | src.main.read.list_s3_files:list_files_in_bucket:36 - An error occurred (NoSuchBucket) when calling the ListObjectsV2 operation: The specified bucket does not exist
+2025-02-07 13:18:51.249 | INFO     | src.main.read.list_s3_files:list_files_in_bucket:15 - ------getting the s3 client------
+2025-02-07 13:18:51.249 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:16 - -------Starting decryption and initiating the s3 client-------
+2025-02-07 13:18:51.252 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:28 - ------Decryption of aws credentials is successful------
+2025-02-07 13:18:51.253 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:44 - ------Initiating s3 client------
+2025-02-07 13:18:51.333 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:51 - ------Successfully got the s3 client------
+2025-02-07 13:18:52.692 | ERROR    | src.main.read.list_s3_files:list_files_in_bucket:37 - An error occurred (NoSuchBucket) when calling the ListObjectsV2 operation: The specified bucket does not exist
+2025-02-07 13:19:35.813 | INFO     | src.main.read.list_s3_files:list_files_in_bucket:15 - ------getting the s3 client------
+2025-02-07 13:19:35.813 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:16 - -------Starting decryption and initiating the s3 client-------
+2025-02-07 13:19:35.817 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:28 - ------Decryption of aws credentials is successful------
+2025-02-07 13:19:35.817 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:44 - ------Initiating s3 client------
+2025-02-07 13:19:35.909 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:51 - ------Successfully got the s3 client------
+2025-02-07 14:12:53.565 | INFO     | __main__:list_files:25 - ------ Getting the list of files------
+2025-02-07 14:16:03.710 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:16 - -------Starting decryption and initiating the s3 client-------
+2025-02-07 14:16:03.713 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:28 - ------Decryption of aws credentials is successful------
+2025-02-07 14:16:03.714 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:44 - ------Initiating s3 client------
+2025-02-07 14:16:03.844 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:51 - ------Successfully got the s3 client------
+2025-02-07 14:17:16.072 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:16 - -------Starting decryption and initiating the s3 client-------
+2025-02-07 14:17:16.078 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:28 - ------Decryption of aws credentials is successful------
+2025-02-07 14:17:16.078 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:44 - ------Initiating s3 client------
+2025-02-07 14:17:16.211 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:51 - ------Successfully got the s3 client------
+2025-02-07 14:18:08.510 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:16 - -------Starting decryption and initiating the s3 client-------
+2025-02-07 14:18:08.520 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:28 - ------Decryption of aws credentials is successful------
+2025-02-07 14:18:08.521 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:44 - ------Initiating s3 client------
+2025-02-07 14:18:08.731 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:51 - ------Successfully got the s3 client------
+2025-02-07 14:20:15.306 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:16 - -------Starting decryption and initiating the s3 client-------
+2025-02-07 14:20:15.313 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:28 - ------Decryption of aws credentials is successful------
+2025-02-07 14:20:15.313 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:44 - ------Initiating s3 client------
+2025-02-07 14:20:15.440 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:51 - ------Successfully got the s3 client------
+2025-02-07 14:20:15.990 | INFO     | __main__:list_files:26 - ------ Getting the list of files------
+2025-02-07 14:20:17.610 | INFO     | __main__:list_files:34 - ------files fetched successfully------
+2025-02-07 15:41:38.915 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:16 - -------Starting decryption and initiating the s3 client-------
+2025-02-07 15:41:39.004 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:28 - ------Decryption of aws credentials is successful------
+2025-02-07 15:41:39.005 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:44 - ------Initiating s3 client------
+2025-02-07 15:41:39.098 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:51 - ------Successfully got the s3 client------
+2025-02-07 15:43:39.729 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:16 - -------Starting decryption and initiating the s3 client-------
+2025-02-07 15:43:39.732 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:28 - ------Decryption of aws credentials is successful------
+2025-02-07 15:43:39.733 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:44 - ------Initiating s3 client------
+2025-02-07 15:43:39.821 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:51 - ------Successfully got the s3 client------
+2025-02-07 15:43:40.095 | INFO     | __main__:download_files:53 - ------Starting the files download
+2025-02-07 15:43:40.095 | ERROR    | __main__:download_files:62 - An error occurred during file download: GetFiles.list_files() takes 1 positional argument but 2 were given
+2025-02-07 15:44:37.430 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:16 - -------Starting decryption and initiating the s3 client-------
+2025-02-07 15:44:37.433 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:28 - ------Decryption of aws credentials is successful------
+2025-02-07 15:44:37.434 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:44 - ------Initiating s3 client------
+2025-02-07 15:44:37.521 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:51 - ------Successfully got the s3 client------
+2025-02-07 15:44:37.752 | INFO     | __main__:download_files:53 - ------Starting the files download
+2025-02-07 15:44:37.752 | INFO     | __main__:list_files:28 - ------ Getting the list of files------
+2025-02-07 15:44:38.947 | INFO     | __main__:list_files:34 - ------files fetched successfully------
+2025-02-07 15:44:39.397 | INFO     | __main__:download_files:59 - ------Files downloaded successfully------

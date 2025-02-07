@@ -25,8 +25,9 @@ def list_files_in_bucket(bucket_name):
         if 'Contents' in response:
             file_names = [obj['Key'] for obj in response['Contents']]
             # logger.info(f"files in bucket: {bucket_name}")
-            for file in file_names:
-                print(file)
+            # for file in file_names:
+            #     print(file)
+            return file_names
 
         else:
             logger.error(f"no files found in the bucket: {bucket_name}")
