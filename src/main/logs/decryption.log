@@ -104,3 +104,21 @@
 2025-02-07 15:44:37.752 | INFO     | __main__:list_files:28 - ------ Getting the list of files------
 2025-02-07 15:44:38.947 | INFO     | __main__:list_files:34 - ------files fetched successfully------
 2025-02-07 15:44:39.397 | INFO     | __main__:download_files:59 - ------Files downloaded successfully------
+2025-02-07 15:57:05.332 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:16 - -------Starting decryption and initiating the s3 client-------
+2025-02-07 15:57:05.334 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:28 - ------Decryption of aws credentials is successful------
+2025-02-07 15:57:05.335 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:44 - ------Initiating s3 client------
+2025-02-07 15:57:05.399 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:51 - ------Successfully got the s3 client------
+2025-02-07 15:57:19.443 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:16 - -------Starting decryption and initiating the s3 client-------
+2025-02-07 15:57:19.445 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:28 - ------Decryption of aws credentials is successful------
+2025-02-07 15:57:19.446 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:44 - ------Initiating s3 client------
+2025-02-07 15:57:19.496 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:51 - ------Successfully got the s3 client------
+2025-02-07 15:57:19.638 | INFO     | __main__:download_files:53 - ------Starting the files download------
+2025-02-07 15:57:19.638 | INFO     | __main__:list_files:28 - ------ Getting the list of files------
+2025-02-07 15:57:20.951 | INFO     | __main__:download_files:62 - ------Files downloaded successfully and saved to E:\spark_project01\files\raw_files and size is 1.3134610652923584------
+2025-02-07 16:16:42.887 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:16 - -------Starting decryption and initiating the s3 client-------
+2025-02-07 16:16:42.890 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:28 - ------Decryption of aws credentials is successful------
+2025-02-07 16:16:42.890 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:44 - ------Initiating s3 client------
+2025-02-07 16:16:42.962 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:51 - ------Successfully got the s3 client------
+2025-02-07 16:16:43.104 | INFO     | __main__:download_files:54 - ------ Starting the files download ------
+2025-02-07 16:16:43.105 | INFO     | __main__:list_files:29 - ------ Getting the list of files ------
+2025-02-07 16:16:44.454 | INFO     | __main__:download_files:63 - ------ Files downloaded successfully and saved to E:\spark_project01\files\raw_files and size is 1.3498342037200928 ------
