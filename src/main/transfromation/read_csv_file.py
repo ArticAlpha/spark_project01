@@ -16,7 +16,7 @@ def read_csv(spark,file_path):
                 .load(file_path)
 
         logger.info("------CSV file read successfully------")
-        df.select("order_id","customer_gender").show()
+        df.show()
         # input()
 
     except Exception as e:
