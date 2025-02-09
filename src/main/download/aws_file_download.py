@@ -1,5 +1,4 @@
 from contextlib import nullcontext
-
 from loguru import logger
 import os
 import time
@@ -61,7 +60,7 @@ class GetFiles:
             end_time = time.time()
             time_taken = end_time - start_time
 
-            logger.info(f"------ Files downloaded successfully and saved to {local_file_path} and size is {time_taken} ------")
+            logger.info(f"------ Files downloaded successfully and saved to {local_file_path} time taken {time_taken}------")
             return True
         except Exception as e:
             logger.error(f"An error occurred during file download: {str(e)}")
