@@ -19,6 +19,6 @@ def read_csv(spark,file_path):
         return None
 
 spark=spark_session()
-csv_file_path="E:\\spark_project01\\files\\raw_files\\sample_data.csv"
+csv_file_path="E:\\spark_project01\\src\\testing\\car_sales.csv"
 
 read_csv(spark,csv_file_path)
