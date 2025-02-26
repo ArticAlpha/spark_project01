@@ -1,6 +1,6 @@
 boto3
 cryptography
-ast
+
 loguru
 pyspark
 findspark

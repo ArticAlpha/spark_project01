@@ -10,16 +10,22 @@ from loguru import logger
 
 def spark_session():
     logger.info("------Starting the spark session------")
-    spark = SparkSession.builder.master("local[*]") \
-        .appName("sunny_spark01") \
-        .config("spark.driver.extraClassPath", "C:\\my_sql_jar\\mysql-connector-java-8.0.26.jar") \
-        .config("spark.sql.debug.maxToStringFields", "200") \
-        .config("spark.sql.parquet.writeLegacyFormat", "true") \
-        .getOrCreate()
+    spark = SparkSession.builder \
+    .appName("MyApp") \
+    .config("spark.hadoop.home.dir", "C:\\hadoop") \
+    .getOrCreate()
+
+    # SparkSession.builder.master("local[*]") \
+    #     .appName("sunny_spark01") \
+    #     .config("spark.driver.extraClassPath", "C:\\my_sql_jar\\mysql-connector-java-8.0.26.jar") \
+    #     .config("spark.sql.debug.maxToStringFields", "200") \
+    #     .config("spark.sql.parquet.writeLegacyFormat", "true") \
+    #     .getOrCreate()
 
     # Write Parquet file with decimals
     df = spark.createDataFrame([(1.23,), (4.56,)], ["decimal_col"])
     df.write.mode("overwrite").parquet("E:\\spark_project01\\src\\random_data\\files")
+    # df.show()
     logger.info("Parquet file written successfully!")
 
     # Validate Parquet file
