@@ -12,6 +12,13 @@ def spark_session():
         .appName("sunny_spark01")\
         .config("spark.driver.extraClassPath", "C:\\my_sql_jar\\mysql-connector-java-8.0.26.jar") \
         .getOrCreate()
+    # spark.conf.set("spark.sql.debug.maxToStringFields", "200")
+    # spark.conf.set("spark.sql.parquet.writeLegacyFormat", "true")
+    # spark = SparkSession.builder.config("spark.driver.host","localhost") \
+    #     .appName("sunny_spark01") \
+    #     .getOrCreate()
+
+
     # print("spark session %s",spark)
     logger.info("------Spark session created successfully------")
     return spark
