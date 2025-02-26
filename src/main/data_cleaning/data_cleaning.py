@@ -169,7 +169,7 @@ class DataCleaning:
 
             cleaned_data_path = "E:/spark_project01/files/cleaned_data/parquet"
             final_df.write.mode("overwrite").parquet(cleaned_data_path)
-            # logger.info(f"------Data cleaned and saved to: {cleaned_data_path}------")
+            ## logger.info(f"------Data cleaned and saved to: {cleaned_data_path}------")
 
             logger.info(f"------Dataframe Processed and cleaned data is written to {cleaned_data_path}------")
             return  final_df
