@@ -32,60 +32,61 @@ headers = [
 ]
 
 # Define car combinations
-cars = [
-    ["Toyota", "Camry", "Hybrid", "Petrol", 27000],
-    ["BMW", "X5", "V6", "Petrol", 62000],
-    ["Tesla", "Model S", "Electric", "Electric", 88000],
-    ["Ford", "F-150", "V6", "Diesel", 35000],
-    ["Hyundai", "Tucson", "Inline-4", "Petrol", 26000],
-    ["Audi", "Q7", "V6 Turbo", "Diesel", 58000],
-    ["Mercedes", "E-Class", "Inline-4 Turbo", "Petrol", 55000],
-    ["Honda", "CR-V", "Inline-4", "Petrol", 28000],
-    ["Volkswagen", "Passat", "Inline-4", "Diesel", 27000],
-    ["Chevrolet", "Silverado", "V8", "Diesel", 40000],
-    ["Nissan", "Leaf", "Electric Motor", "Electric", 30000],
-    ["Kia", "Sorento", "Inline-4 Turbo", "Petrol", 29000],
-    ["Jeep", "Wrangler", "V6", "Petrol", 35000],
-    ["Volvo", "XC90", "Hybrid", "Petrol", 57000],
-    ["Porsche", "Cayenne", "V6 Turbo", "Diesel", 73000],
-    ["Dodge", "Challenger", "V8 HEMI", "Petrol", 32000],
-    ["Subaru", "Outback", "Boxer-4", "Petrol", 28000],
-    ["Land Rover", "Discovery", "Inline-4", "Diesel", 61000],
+car_data = [
+    ["Toyota", "Camry", "Hybrid", "Petrol", 27000, 15],
+    ["BMW", "X5", "V6", "Petrol", 62000, 10],
+    ["Tesla", "Model S", "Electric", "Electric", 88000, 450],  # Full charge
+    ["Ford", "F-150", "V6", "Diesel", 35000, 8],
+    ["Hyundai", "Tucson", "Inline-4", "Petrol", 26000, 14],
+    ["Audi", "Q7", "V6 Turbo", "Diesel", 58000, 9],
+    ["Mercedes", "E-Class", "Inline-4 Turbo", "Petrol", 55000, 12],
+    ["Honda", "CR-V", "Inline-4", "Petrol", 28000, 13],
+    ["Volkswagen", "Passat", "Inline-4", "Diesel", 27000, 15],
+    ["Chevrolet", "Silverado", "V8", "Diesel", 40000, 7],
+    ["Nissan", "Leaf", "Electric Motor", "Electric", 30000, 380],  # Full charge
+    ["Kia", "Sorento", "Inline-4 Turbo", "Petrol", 29000, 12],
+    ["Jeep", "Wrangler", "V6", "Petrol", 35000, 10],
+    ["Volvo", "XC90", "Hybrid", "Petrol", 57000, 11],
+    ["Porsche", "Cayenne", "V6 Turbo", "Diesel", 73000, 9],
+    ["Dodge", "Challenger", "V8 HEMI", "Petrol", 32000, 8],
+    ["Subaru", "Outback", "Boxer-4", "Petrol", 28000, 13],
+    ["Land Rover", "Discovery", "Inline-4", "Diesel", 61000, 7],
     # Additional cars
-    ["Mazda", "CX-5", "Inline-4", "Petrol", 25000],
-    ["Chevrolet", "Equinox", "Inline-4", "Petrol", 27000],
-    ["Ford", "Explorer", "V6", "Petrol", 34000],
-    ["BMW", "3 Series", "Inline-4 Turbo", "Petrol", 41000],
-    ["Toyota", "RAV4", "Hybrid", "Petrol", 30000],
-    ["Tesla", "Model 3", "Electric Motor", "Electric", 48000],
-    ["Honda", "Accord", "Inline-4 Turbo", "Petrol", 27000],
-    ["Hyundai", "Santa Fe", "V6", "Petrol", 28000],
-    ["Nissan", "Altima", "Inline-4", "Petrol", 25000],
-    ["Jeep", "Grand Cherokee", "V6", "Diesel", 40000],
-    ["Subaru", "Forester", "Boxer-4", "Petrol", 26000],
-    ["Chevrolet", "Tahoe", "V8", "Petrol", 49000],
-    ["Toyota", "Corolla", "Inline-4", "Petrol", 20000],
-    ["Volkswagen", "Tiguan", "Inline-4 Turbo", "Petrol", 26000],
-    ["Audi", "A4", "Inline-4 Turbo", "Petrol", 39000],
-    ["Mercedes", "GLC", "Inline-4 Turbo", "Petrol", 45000],
-    ["Kia", "Sportage", "Inline-4", "Petrol", 27000],
-    ["Volvo", "S60", "Hybrid", "Petrol", 42000],
-    ["Ford", "Mustang", "V8", "Petrol", 55000],
-    ["Tesla", "Model Y", "Electric Motor", "Electric", 54000],
-    ["Mazda", "MX-5 Miata", "Inline-4", "Petrol", 26000],
-    ["Honda", "Pilot", "V6", "Petrol", 37000],
-    ["Chevrolet", "Blazer", "Inline-4 Turbo", "Petrol", 31000],
-    ["Toyota", "Highlander", "V6", "Petrol", 36000],
-    ["Hyundai", "Elantra", "Inline-4", "Petrol", 22000],
-    ["BMW", "X3", "Inline-4 Turbo", "Petrol", 44000],
-    ["Jeep", "Renegade", "Inline-4", "Petrol", 24000],
-    ["Subaru", "Crosstrek", "Boxer-4", "Petrol", 24000],
-    ["Volkswagen", "Jetta", "Inline-4", "Diesel", 21000],
-    ["Audi", "Q5", "Inline-4 Turbo", "Diesel", 43000],
-    ["Porsche", "Macan", "V6 Turbo", "Diesel", 67000],
-    ["Dodge", "Durango", "V8", "Petrol", 42000],
-    ["Land Rover", "Range Rover", "V6", "Diesel", 92000]
+    ["Mazda", "CX-5", "Inline-4", "Petrol", 25000, 14],
+    ["Chevrolet", "Equinox", "Inline-4", "Petrol", 27000, 13],
+    ["Ford", "Explorer", "V6", "Petrol", 34000, 10],
+    ["BMW", "3 Series", "Inline-4 Turbo", "Petrol", 41000, 12],
+    ["Toyota", "RAV4", "Hybrid", "Petrol", 30000, 18],
+    ["Tesla", "Model 3", "Electric Motor", "Electric", 48000, 500],  # Full charge
+    ["Honda", "Accord", "Inline-4 Turbo", "Petrol", 27000, 14],
+    ["Hyundai", "Santa Fe", "V6", "Petrol", 28000, 12],
+    ["Nissan", "Altima", "Inline-4", "Petrol", 25000, 15],
+    ["Jeep", "Grand Cherokee", "V6", "Diesel", 40000, 8],
+    ["Subaru", "Forester", "Boxer-4", "Petrol", 26000, 13],
+    ["Chevrolet", "Tahoe", "V8", "Petrol", 49000, 6],
+    ["Toyota", "Corolla", "Inline-4", "Petrol", 20000, 16],
+    ["Volkswagen", "Tiguan", "Inline-4 Turbo", "Petrol", 26000, 13],
+    ["Audi", "A4", "Inline-4 Turbo", "Petrol", 39000, 12],
+    ["Mercedes", "GLC", "Inline-4 Turbo", "Petrol", 45000, 10],
+    ["Kia", "Sportage", "Inline-4", "Petrol", 27000, 12],
+    ["Volvo", "S60", "Hybrid", "Petrol", 42000, 14],
+    ["Ford", "Mustang", "V8", "Petrol", 55000, 8],
+    ["Tesla", "Model Y", "Electric Motor", "Electric", 54000, 480],  # Full charge
+    ["Mazda", "MX-5 Miata", "Inline-4", "Petrol", 26000, 14],
+    ["Honda", "Pilot", "V6", "Petrol", 37000, 10],
+    ["Chevrolet", "Blazer", "Inline-4 Turbo", "Petrol", 31000, 11],
+    ["Toyota", "Highlander", "V6", "Petrol", 36000, 9],
+    ["Hyundai", "Elantra", "Inline-4", "Petrol", 22000, 16],
+    ["BMW", "X3", "Inline-4 Turbo", "Petrol", 44000, 11],
+    ["Jeep", "Renegade", "Inline-4", "Petrol", 24000, 13],
+    ["Subaru", "Crosstrek", "Boxer-4", "Petrol", 24000, 12],
+    ["Volkswagen", "Jetta", "Inline-4", "Diesel", 21000, 18],
+    ["Audi", "Q5", "Inline-4 Turbo", "Diesel", 43000, 11],
+    ["Porsche", "Macan", "V6 Turbo", "Diesel", 67000, 9],
+    ["Dodge", "Durango", "V8", "Petrol", 42000, 8],
+    ["Land Rover", "Range Rover", "V6", "Diesel", 92000, 7]
 ]
+
 
 showrooms = [
     {"showroomname": "AutoMax Motors", "showroomaddress": "123 Main Street, Downtown", "pincode": 560001,
@@ -136,13 +137,24 @@ showrooms = [
      "phonenumber": "6712345678"},
     {"showroomname": "Fusion Cars", "showroomaddress": "410 Harmony Road, Fusion Plaza", "pincode": 560024,
      "phonenumber": "6612345678"},
-    {"showroomname": "UrbanMotion Autos", "showroomaddress": "520 Skyline Avenue, UrbanMotion Zone", "pincode": 560025,
-     "phonenumber": "6512345678"},
-    {"showroomname": "AutoHub Elite", "showroomaddress": "609 Prime Circle, AutoHub Park", "pincode": 560026,
-     "phonenumber": "6412345678"},
-    {"showroomname": "Velocity Showroom", "showroomaddress": "710 Rapid Plaza, Velocity Center", "pincode": 560027,
-     "phonenumber": "6312345678"}
+    {"showroomname": "UrbanMotion Autos",
+     "showroomaddress": "520 Skyline Avenue, UrbanMotion Zone",
+     "pincode": 560025,
+     "phonenumber": "6512345678"
+     },
+    {"showroomname": "AutoHub Elite",
+     "showroomaddress": "609 Prime Circle, AutoHub Park",
+     "pincode": 560026,
+     "phonenumber": "6412345678"
+     },
+    {
+     "showroomname": "Velocity Showroom",
+     "showroomaddress": "710 Rapid Plaza, Velocity Center",
+     "pincode": 560027,
+     "phonenumber": "6312345678"
+     }
 ]
+
 
 # making 500 unique sales reps
 # num_sales_rep = 500
@@ -262,7 +274,7 @@ for i in range(10000):  # Generate 100 car sales entries
     rand_value_delivery_order = randint(10, 90)
 
     car_id = i
-    car_details = choice(cars)
+    car_details = choice(car_data)
     make = car_details[0]
     model = car_details[1]
     engine_type = car_details[2]
@@ -275,7 +287,7 @@ for i in range(10000):  # Generate 100 car sales entries
                 price * (random_discount if random_discount is not None and random_discount != '' else 1))
     vin = str(uuid.uuid4()) + '-' + str(car_id) + str(
         initial_order_id)  # making vin unique by adding card_id and initial_order_id
-    mileage = randomize_value(randint(10, 45))  # Mileage in kilometers
+    mileage = car_details[5]  # Mileage in kilometers
 
     order_id = initial_order_id
     initial_order_id += 1

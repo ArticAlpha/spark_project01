@@ -25,7 +25,7 @@ class DataCleaning:
                 StructField("year", DateType(), True),
                 StructField("color", StringType(), True),
                 StructField("price", IntegerType(), True),
-                StructField("discounted_price", IntegerType(), True),
+                StructField("discounted_price", FloatType(), True),
                 StructField("vin", StringType(), True),
                 StructField("engine_type", StringType(), True),
                 StructField("mileage", IntegerType(), True),
@@ -98,7 +98,9 @@ class DataCleaning:
         try:
             # dropping sales_rep_experice
             df = df.drop("sales_rep_experience_years")
+            df = df.drop("order_amount")
             invalid_df = df.filter((col("price")<0) | col("price").isNull())
+
 
             if invalid_df.count()>0:
                 path="E:/spark_project01/files/invalid_data/invalid_data.csv"
@@ -133,13 +135,19 @@ class DataCleaning:
             #filing N/A where color is not present
             df = df.fillna({"color":"N/A"})
 
-            filtered_mileage_df = df.filter(col("mileage").isNotNull())
+            # removing years from warranty period
+            df = df.withColumn("warranty_period", coalesce(col("warranty_period"),lit(0)))
+            df = df.withColumn("warranty_period", regexp_replace(col("warranty_period")," years",""))
+            df = df.withColumn("warranty_period", col("warranty_period").cast(IntegerType()))
+
+
+            filtered_mileage_df = df.select("mileage","model").filter(col("mileage").isNotNull())
             avg_mileage_df = filtered_mileage_df.groupBy(col("model")).agg(
                 floor(avg(col("mileage"))).alias("avg_mileage")
             )
 
             df = df.join(avg_mileage_df, on="model", how="left").withColumn(
-                "mileage", when(col("mileage").isNull(),col("avg_mileage")).otherwise("mileage")
+                "mileage", when(col("mileage").isNull(),col("avg_mileage")).otherwise(col("mileage"))
             )
 
             df=df.drop("avg_mileage")
@@ -166,6 +174,9 @@ class DataCleaning:
 
             #adding defaults in customer_age
             final_df = final_status_df.fillna({"customer_age": 25})
+
+            #adding custom as color where
+            final_df = final_df.withColumn("color",when(col("color")=="N/A","Custom").otherwise(col("color")))
 
             cleaned_data_path = "E:/spark_project01/files/cleaned_data/parquet"
             final_df.write.mode("overwrite").parquet(cleaned_data_path)
