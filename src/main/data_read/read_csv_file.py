@@ -17,10 +17,10 @@ def read_csv(spark,file_path):
                 .load(file_path)
 
         logger.info("------CSV file read successfully------")
-        unique_reps=df.select("discounted_price").distinct()
+        # unique_reps=df.select("discounted_price").distinct()
         # print(unique_reps.count())
         # input()
-        return unique_reps
+        return df
 
     except Exception as e:
         logger.error(f"Error reading the csv file:{e}")
@@ -29,4 +29,5 @@ def read_csv(spark,file_path):
 spark=spark_session()
 csv_file_path= "E:/spark_project01/src/testing/car_sales.csv"
 a = read_csv(spark,csv_file_path)
-a.show()
+aa=a.select("make","model", "engine_type","mileage","fuel_type","price").distinct().count()
+print(aa)

@@ -47,7 +47,7 @@ class DataCleaning:
                 StructField("customer_age", IntegerType(), True),
                 StructField("customer_email", StringType(), True),
                 StructField("customer_phone", StringType(), True),
-                StructField("customer_address", IntegerType(), True),
+                StructField("customer_address", StringType(), True),
                 StructField("customer_gender", StringType(), True),
                 StructField("customer_marital_status", StringType(), True),
                 StructField("order_amount", IntegerType(), True),
@@ -206,6 +206,6 @@ cleaned_df = instance1.check_price(df)
 
 #Step 3 Final cleaning
 processed_df = instance1.data_cleaning(cleaned_df)
-# processed_df.select("order_status","payment_method").distinct().show()
+# processed_df.select("customer_address").distinct().limit(20).show()
 #
 # processed_df.printSchema()

@@ -31,8 +31,11 @@ class DataTransform:
 
             #calculating warranty period
             warranty_expiration_df = rename_df.withColumn("warranty_expiration_date",add_months(col("expected_delivery_date"),col("warranty_period")*12))
+            gender_df = warranty_expiration_df.withColumnRenamed("customer_gender","gender")
+            marital_status_df = gender_df.withColumnRenamed("customer_marital_status", "marital_status")
 
-            warranty_expiration_df.write.mode("overwrite").parquet("E:\\spark_project01\\files\\transformed_data\\parquet\\")
+            marital_status_df.write.mode("overwrite").parquet("E:\\spark_project01\\files\\transformed_data\\parquet\\")
+
             logger.info(f"------ data transformed successfully ------")
 
         except Exception as e:
