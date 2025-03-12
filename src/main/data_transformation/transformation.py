@@ -64,7 +64,7 @@ class DataTransform:
                 end_time=end_time,
                 status="Failed",
                 error_message=str(e),
-                remarks="Error during data transformation"
+                remarks="Error during data data_transformation"
             )
             logger.error(f"------ Error encountered: {str(e)} ------")
 
