@@ -1,24 +1,21 @@
 import mysql.connector
-import configparser
+from resources.dev.load_config import load_config
 
-base_path = "E:\\spark_project01\\resources\\dev\\"
-
+config = load_config()
 def get_mysql_connection():
-    config_path = f"{base_path}config.ini"
-    config = configparser.ConfigParser()
-    config.read(config_path)
+
 
     connection = mysql.connector.connect(
         host="localhost",
-        user=config['mysql']['username'],
-        password=config['mysql']['password'],
-        database="sunny"
+        user=config.mysql_username,
+        password=config.mysql_password,
+        database=config.mysql_database
     )
     return connection
 
 
 
-if __name__=="__main":
+if __name__=="__main__":
     get_mysql_connection()
 
 

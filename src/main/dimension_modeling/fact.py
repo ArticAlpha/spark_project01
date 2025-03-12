@@ -1,13 +1,9 @@
-from xmlrpc.client import FastParser
-
-from src.main.utility.spark_session import spark_session
 from loguru import logger
-from pyspark.sql.types import StructType, StructField, IntegerType, StringType, DateType, FloatType
-from pyspark.sql.functions import *
 from src.main.data_read.read_parquet import read_parquet_file
 from src.main.utility.database_connector import get_mysql_connection
-import mysql.connector
-import configparser
+from datetime import datetime
+from src.main.logs.log_process import log_process
+
 
 class Facts:
     def __init__(self):
@@ -16,7 +12,9 @@ class Facts:
 
     def read_table_info(self):
 
+        start_time = datetime.now()
         try:
+
             if self.connection.is_connected():
                 logger.success("------ Successfully connected to the database ------")
 
@@ -31,12 +29,30 @@ class Facts:
 
                 # Print the rows
                 # for row in records:
+                end_time = datetime.now()
+                log_process(
+                    process_name="Get dimension details for fact table creation",
+                    start_time=start_time,
+                    end_time=end_time,
+                    status="Success",
+                    records_processed=len(records),
+                    remarks=f"Dimension table details fetched successfully"
+                )
                 return(records)
 
-                # Close the cursor
-                # cursor.close()
+
+
 
         except Exception as e:
+            end_time = datetime.now()
+            log_process(
+                process_name="Get dimension details for fact table creation",
+                start_time=start_time,
+                end_time=end_time,
+                status="Failed",
+                records_processed=0,
+                remarks=f"Unable to fetch Dimension table details"
+            )
             logger.error(f"Error: {e}")
         finally:
             if self.connection.is_connected():
@@ -47,6 +63,7 @@ class Facts:
     def read_dim(self,records):
         dataframes = {}
         if records:
+            start_time = datetime.now()
             try:
 
                 logger.info("------ reading dimension tables ------")
@@ -54,18 +71,44 @@ class Facts:
                     table_name = record['table_name']
                     path = record['path']
                     dataframes[table_name] = read_parquet_file(path)
-                logger.info("------ dimension tables read successfully ------")
+                logger.success("------ dimension tables read successfully ------")
+
+                end_time=datetime.now()
+                log_process(
+                    process_name="Create Dataframes from dimension tables",
+                    start_time=start_time,
+                    end_time=end_time,
+                    status="Success",
+                    remarks=f"Dataframes created successfully"
+                )
+
                 return dataframes
             except Exception as e:
+                end_time = datetime.now()
+                log_process(
+                    process_name="Create Dataframes from dimension tables",
+                    start_time=start_time,
+                    end_time=end_time,
+                    status="Failed",
+                    remarks=f"Unable to create Dataframes"
+                )
                 logger.error(f"------ error reading the dimension tables {str(e)}")
         else:
             logger.error("------ dimension tables provided to process ------")
+            log_process(
+                process_name="Create Dataframes from dimension tables",
+                start_time=datetime.now(),
+                end_time=datetime.now(),
+                status="Failed",
+                remarks=f"No records were provided to make dataframes"
+            )
 
 
 
     def create_fact(self,dim_dict):
 
         if dim_dict:
+            start_time = datetime.now()
             try:
                 logger.info("------ fact table creation initiated ------")
                 dim_color = dim_dict['dim_color']
@@ -120,16 +163,38 @@ class Facts:
 
                 fact_df.write.mode("overwrite").parquet(f"E:\\spark_project01\\files\\processed\\transactional_fact")
                 fact_df.distinct().show(10,truncate=False)
+
+
                 logger.success("------ fact table created successfully ------")
+                end_time = datetime.now()
+                log_process(
+                    process_name="Fact table creation",
+                    start_time=start_time,
+                    end_time=end_time,
+                    status="Success",
+                    file_name=f"E:\\spark_project01\\files\\processed\\transactional_fact",
+                    records_processed=fact_df.count(),
+                    remarks=f"Fact table created successfully"
+                )
             except Exception as e:
+                end_time = datetime.now()
+                log_process(
+                    process_name="Fact table creation",
+                    start_time=start_time,
+                    end_time=end_time,
+                    status="Failed",
+                    records_processed=0,
+                    remarks=f"Fact table creation failed"
+                )
                 logger.error(f"------ error occurred while creating fact table {str(e)} ------")
         else:
             logger.error("------ unable to create fact table ------")
 
 
 # print(read_table_info())
-instance1 = Facts()
-list1 = instance1.read_table_info()
-dim_dicts = instance1.read_dim(list1)
-# # print(fact(dim_dicts))
-instance1.create_fact(dim_dicts)
+if __name__ =="__main__":
+    instance1 = Facts()
+    list1 = instance1.read_table_info()
+    dim_dicts = instance1.read_dim(list1)
+    # # print(fact(dim_dicts))
+    instance1.create_fact(dim_dicts)

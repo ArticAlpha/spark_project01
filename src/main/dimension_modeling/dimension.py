@@ -3,7 +3,8 @@ from loguru import logger
 from pyspark.sql.types import StructType, StructField, IntegerType, StringType, DateType, FloatType
 from pyspark.sql.functions import *
 from src.main.data_read.read_parquet import read_parquet_file
-
+from datetime import datetime
+from src.main.logs.log_process import log_process
 
 class Dimensions:
     def __init__(self, file_path):
@@ -13,6 +14,7 @@ class Dimensions:
     def create_dim_table(self, list_of_columns, table_name, schema, rename_columns=None):
         if self.df is None:
             logger.error("No file present to process")
+        start_time = datetime.now()
         try:
             logger.info(f"------ creating {table_name} dimension -------")
 
@@ -36,10 +38,32 @@ class Dimensions:
             aligned_df.write.mode("overwrite").parquet(
                 f"E:\\spark_project01\\files\\processed\\dimensions\\dim_{table_name}")
             aligned_df.show(5, truncate=False)
-            logger.info(f"------ {table_name} dimension created successfully ------")
+
+            #logging
+            end_time = datetime.now()
+            log_process(
+                process_name="Dimension table creation",
+                start_time=start_time,
+                end_time=end_time,
+                status="Success",
+                file_name=f"E:\\spark_project01\\files\\processed\\dimensions\\dim_{table_name}",
+                records_processed=aligned_df.count(),
+                remarks=f"{table_name} dimension created successfully"
+            )
+            logger.success(f"------ {table_name} dimension created successfully ------")
 
         except Exception as e:
-            logger.error(f"------Error occurred while creating dimension: {table_name} error as {str(e)}")
+            end_time = datetime.now()
+            log_process(
+                process_name="Dimension table creation",
+                start_time=start_time,
+                end_time=end_time,
+                status="Failed",
+                error_message=f"{str(e)}",
+                records_processed=0,
+                remarks=f"Error occurred while creating dimension: {table_name} error as {str(e)}"
+            )
+            logger.error(f"------ Error occurred while creating dimension: {table_name} error as {str(e)} ------")
 
     def create_all_dims(self):
         dim_configurations = [
@@ -154,7 +178,9 @@ class Dimensions:
         for columns, table_name, schema, rename_columns in dim_configurations:
             self.create_dim_table(list_of_columns=columns, table_name=table_name, schema=schema, rename_columns=rename_columns)
 
-file_path = "E:\\spark_project01\\files\\transformed_data\\parquet\\"
-instance1 = Dimensions(file_path)
 
-dims = instance1.create_all_dims()
+if __name__=="__main__":
+    file_path = "E:\\spark_project01\\files\\transformed_data\\parquet\\"
+    instance1 = Dimensions(file_path)
+
+    dims = instance1.create_all_dims()

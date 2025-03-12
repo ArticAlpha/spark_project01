@@ -1,22 +1,22 @@
-from enum import nonmember
-
-from src.main.utility.spark_session import spark_session
 from loguru import logger
 from pyspark.sql.types import StructType, StructField, IntegerType, StringType, DateType, FloatType
 from pyspark.sql.functions import *
 from functools import reduce
+from src.main.data_read.read_csv_file import read_csv
+from datetime import datetime
+from src.main.logs.log_process import log_process
+from resources.dev.load_config import load_config
 
+config = load_config()
 
 class DataCleaning:
 
-    def __init__(self):
-        self.spark=spark_session()
-
     def data_read(self,file_path):
+        start_time = datetime.now()
         try:
-            #read the csv file into a DataFrame
-            logger.info(f"------Reading CSV file from path {file_path}------")
 
+            #read the csv file into a DataFrame
+            logger.info(f"------ Reading CSV file from path {file_path} ------")
 
             schema = StructType([
                 StructField("car_id", IntegerType(), True),
@@ -56,31 +56,35 @@ class DataCleaning:
                 StructField("warranty_period", StringType(), True)
             ])
 
-            df=self.spark.read.format("csv")\
-                    .option("header","true")\
-                    .schema(schema)\
-                    .option("multiline","true")\
-                    .option("escape","\"")\
-                    .load(file_path)
-            logger.info("------CSV file read successfully------")
+            df=read_csv(file_path, schema)
+            logger.info("------ CSV file read successfully ------")
+
+            end_time = datetime.now()
+
+            log_process(
+                process_name="Data Reading",
+                start_time=start_time,
+                end_time=end_time,
+                status="Success",
+                file_name=file_path,
+                records_processed=df.count(),
+                remarks="File read successfully"
+            )
             return df
 
         except Exception as e:
-            logger.error(f"Error reading the csv file:{e}")
+            end_time = datetime.now()
+            logger.error(f"------ Error reading the csv file:{e} ------")
+            log_process(
+                process_name="Data Reading",
+                start_time=start_time,
+                end_time=end_time,
+                status="Failed",
+                error_message=str(e),
+                file_name=file_path,
+                remarks="Error occurred during file reading"
+            )
             return None
-
-    # dropping experience column
-
-
-
-
-    #checking for all null rows
-    # def remove_all_null_rows(self,df):
-    #     # Generate a condition to check if all columns are null
-    #     all_null_condition = reduce(lambda x, y: x & y, (col(c).isNull() for c in df.columns))
-    #
-    #     # Filter out rows where all columns are null
-    #     return df.filter(~all_null_condition)
 
 
 
@@ -95,6 +99,7 @@ class DataCleaning:
             :param output_path: The file path where the invalid rows should be saved.
             :return: The cleaned DataFrame with invalid rows removed.
         """
+        start_time = datetime.now()
         try:
             # dropping sales_rep_experice
             df = df.drop("sales_rep_experience_years")
@@ -103,33 +108,53 @@ class DataCleaning:
 
 
             if invalid_df.count()>0:
-                path="E:/spark_project01/files/invalid_data/invalid_data.csv"
+                path=config.invalid_price_path  #getting tht path from the config.py
                 invalid_df.write.mode("overwrite").csv(path,header=True)
                 print(f"------ Invalid data saved to: {path} ------")
 
 
             #remove invalid rows from original dataframe
             cleaned_df = df.filter(~(col("price")<0) | col("price").isNull())
+            end_time = datetime.now()
+            log_process(
+                process_name="Price Validation",
+                start_time=start_time,
+                end_time=end_time,
+                status="Success",
+                records_processed=invalid_df.count(),
+                remarks="Invalid prices removed"
+            )
             return cleaned_df
 
 
         except Exception as e:
+            end_time = datetime.now()
             print(f"Error Occurred {str(e)}")
+
+            log_process(
+                process_name="Price Validation",
+                start_time=start_time,
+                end_time=end_time,
+                status="Failed",
+                error_message=str(e),
+                remarks="Error occurred during price validation"
+            )
             return None
 
 
     def data_cleaning(self,df):
         """
 
-        :param df:
-        :return:
+        :param df: takes a dataframe and cleans it
+        :return: nothing, only write the cleaned data in the form of parquet
         """
 
         if df is None:
-            logger.error("No dataframe provided to process")
+            logger.error("------ No dataframe provided to process ------")
             return None
+        start_time = datetime.now()
         try:
-            logger.info("------Processing dataframe------")
+            logger.info("------ Processing dataframe ------")
             # processed_df = df.select("sales_rep_name","sales_rep_phone").distinct()
 
             #filing N/A where color is not present
@@ -178,34 +203,52 @@ class DataCleaning:
             #adding custom as color where
             final_df = final_df.withColumn("color",when(col("color")=="N/A","Custom").otherwise(col("color")))
 
-            cleaned_data_path = "E:/spark_project01/files/cleaned_data/parquet"
+            cleaned_data_path = config.cleaned_data_path
             final_df.write.mode("overwrite").parquet(cleaned_data_path)
             ## logger.info(f"------Data cleaned and saved to: {cleaned_data_path}------")
 
-            logger.info(f"------Dataframe Processed and cleaned data is written to {cleaned_data_path}------")
-            return  final_df
+            logger.info(f"------ Dataframe Processed and cleaned data is written to {cleaned_data_path} ------")
+
+            end_time = datetime.now()
+            log_process(
+                process_name="Data Cleaning",
+                start_time=start_time,
+                end_time=end_time,
+                status="Success",
+                file_name=cleaned_data_path,
+                records_processed=df.count(),
+                remarks="Data cleaned successfully"
+            )
+            # return  final_df
         except Exception as e:
-            logger.error(f"Error encountered: {str(e)}")
+            end_time = datetime.now()
+            logger.error(f"------ Error encountered: {str(e)} ------")
+            log_process(
+                process_name="Data Cleaning",
+                start_time=start_time,
+                end_time=end_time,
+                status="Failed",
+                error_message=str(e),
+                remarks="Error occurred during data cleaning"
+            )
 
 
 
-csv_file_path= "E:/spark_project01/src/testing/car_sales.csv"
-instance1 = DataCleaning()
-df=instance1.data_read(csv_file_path)
-
-if df is None:
-    logger.error("------Error reading the csv file-------")
-    exit()
-
-
-# Step 2 removing rows where price is null or negative
-if df is None:
-    logger.error("Error occurred during null removal")
-cleaned_df = instance1.check_price(df)
+if __name__ == "__main__":
+    csv_file_path = config.csv_file_path
+    instance1 = DataCleaning()
+    df = instance1.data_read(csv_file_path)
+    # df.show(5, truncate=False)
+    if df is None:
+        logger.error("------ Error reading the csv file -------")
+        exit()
 
 
-#Step 3 Final cleaning
-processed_df = instance1.data_cleaning(cleaned_df)
-# processed_df.select("customer_address").distinct().limit(20).show()
-#
-# processed_df.printSchema()
+    # Step 2 removing rows where price is null or negative
+    if df is None:
+        logger.error("Error occurred during null removal")
+    cleaned_df = instance1.check_price(df)
+
+
+    #Step 3 Final cleaning
+    processed_df = instance1.data_cleaning(cleaned_df)

@@ -1,26 +1,28 @@
 from src.main.utility.spark_session import spark_session
 from loguru import logger
-from pyspark.sql.types import StructType, StructField, IntegerType, StringType, DateType, FloatType
 from pyspark.sql.functions import *
 from src.main.data_read.read_parquet import read_parquet_file
+from datetime import datetime
+from src.main.logs.log_process import log_process
+
 
 class DataTransform:
 
     def __init__(self,file_path):
-        self.spark=spark_session()
         self.df=read_parquet_file(file_path)
 
     def data_transform(self):
         """
-        :param df:
-        :return:
+        :param df: takes a cleaned dataframe and transforms it
+        :return: nothing, only write the transformed data in the form of parquet
         """
 
         if self.df is None:
-            logger.error("No dataframe provided to process")
+            logger.error("------ No dataframe provided to process ------")
             return None
+        start_time = datetime.now()
         try:
-            logger.info("------Processing dataframe------")
+            logger.info("------ Processing dataframe ------")
             # profit margin
             df_profit = self.df.withColumn("profit_margin",
                                       when(col("discounted_price")==0,0).otherwise(col("price")-col("discounted_price"))
@@ -36,32 +38,37 @@ class DataTransform:
 
             marital_status_df.write.mode("overwrite").parquet("E:\\spark_project01\\files\\transformed_data\\parquet\\")
 
-            logger.info(f"------ data transformed successfully ------")
+            end_time = datetime.now()
+            logger.success(f"------ data transformed successfully ------")
+
+
+            log_process(
+                process_name="Data Transformation",
+                start_time=start_time,
+                end_time=end_time,
+                status="Success",
+                file_name="E:\\spark_project01\\files\\transformed_data\\parquet",
+                records_processed=marital_status_df.count(),
+                remarks=f"Data transformed successfully and written to E:\\spark_project01\\files\\transformed_data\\parquet"
+            )
 
         except Exception as e:
-            logger.error(f"Error encountered: {str(e)}")
+            end_time = datetime.now()
+            log_process(
+                process_name="Data Transformation",
+                start_time=start_time,
+                end_time=end_time,
+                status="Failed",
+                error_message=str(e),
+                remarks="Error during data transformation"
+            )
+            logger.error(f"------ Error encountered: {str(e)} ------")
 
 
 
-file_path = "E:\\spark_project01\\files\\cleaned_data\\parquet"
-instance1 = DataTransform(file_path)
-# df=instance1.data_read(file_path)
-#Step 3 Final cleaning
-transformed_df = instance1.data_transform()
-# transformed_df.limit(20).show()
-# transformed_df.select("mileage").distinct().show()
+if __name__ == "__main__":
+    file_path = "E:\\spark_project01\\files\\cleaned_data\\parquet"
+    instance1 = DataTransform(file_path)
+    # df=instance1.data_read(file_path)
 
-# dim_df = instance1.dim_tables(transformed_df,["make","model","color","engine_type","mileage","fuel_type","price"],"car",StructType([
-#     StructField("car_id", IntegerType(), False),
-#     StructField("make", StringType(), True),
-#     StructField("model", StringType(), True),
-#     StructField("color", StringType(), True),
-#     StructField("engine_type", StringType(), True),
-#     StructField("mileage", IntegerType(), True),
-#     StructField("fuel_type", StringType(), True),
-#     StructField("price", StringType(), True)
-# ]))
-
-
-
-# dim_df.limit(200).show()
+    transformed_df = instance1.data_transform()

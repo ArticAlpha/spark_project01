@@ -5,8 +5,8 @@ from loguru import logger
 
 def read_parquet_file(file_path):
     """
-    :param file_path:
-    :return:
+    :param file_path: takes a file_path
+    :return: dataframe
     """
     try:
         spark = spark_session()
@@ -22,10 +22,11 @@ def read_parquet_file(file_path):
         return df
 
     except Exception as e:
-        logger.error(f"Error reading the csv file:{e}")
+        logger.error(f"Error reading the parquet file:{e}")
         return None
 
 
-# file_path = "E:\\spark_project01\\files\\transformed_data\\parquet\\"
-# obj1 = read_parquet_file(file_path)
-# obj1.limit(20).show()
+if __name__ == "__main__":
+    file_path = "E:\\spark_project01\\files\\transformed_data\\parquet\\"
+    obj1 = read_parquet_file(file_path)
+
