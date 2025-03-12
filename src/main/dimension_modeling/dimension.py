@@ -1,3 +1,4 @@
+from resources.dev.config import dimension_base_bath
 from src.main.utility.spark_session import spark_session
 from loguru import logger
 from pyspark.sql.types import StructType, StructField, IntegerType, StringType, DateType, FloatType
@@ -5,6 +6,10 @@ from pyspark.sql.functions import *
 from src.main.data_read.read_parquet import read_parquet_file
 from datetime import datetime
 from src.main.logs.log_process import log_process
+from resources.dev.load_config import load_config
+
+#getting config details
+config = load_config()
 
 class Dimensions:
     def __init__(self, file_path):
@@ -35,8 +40,10 @@ class Dimensions:
 
             aligned_df = aligned_df.select(f"{table_name}_id", *[field.name for field in schema.fields])
 
+            #getting the base path for dimension tables
+            dimension_base_bath=config.dimension_base_bath
             aligned_df.write.mode("overwrite").parquet(
-                f"E:\\spark_project01\\files\\processed\\dimensions\\dim_{table_name}")
+                f"{dimension_base_bath}{table_name}")
             aligned_df.show(5, truncate=False)
 
             #logging
@@ -46,7 +53,7 @@ class Dimensions:
                 start_time=start_time,
                 end_time=end_time,
                 status="Success",
-                file_name=f"E:\\spark_project01\\files\\processed\\dimensions\\dim_{table_name}",
+                file_name=f"{dimension_base_bath}{table_name}",
                 records_processed=aligned_df.count(),
                 remarks=f"{table_name} dimension created successfully"
             )
@@ -180,7 +187,7 @@ class Dimensions:
 
 
 if __name__=="__main__":
-    file_path = "E:\\spark_project01\\files\\transformed_data\\parquet\\"
+    file_path = config.transformed_data_path
     instance1 = Dimensions(file_path)
 
     dims = instance1.create_all_dims()

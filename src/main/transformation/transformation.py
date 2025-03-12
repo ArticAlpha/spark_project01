@@ -4,7 +4,10 @@ from pyspark.sql.functions import *
 from src.main.data_read.read_parquet import read_parquet_file
 from datetime import datetime
 from src.main.logs.log_process import log_process
+from resources.dev.load_config import load_config
 
+#getting config details
+config = load_config()
 
 class DataTransform:
 
@@ -36,7 +39,8 @@ class DataTransform:
             gender_df = warranty_expiration_df.withColumnRenamed("customer_gender","gender")
             marital_status_df = gender_df.withColumnRenamed("customer_marital_status", "marital_status")
 
-            marital_status_df.write.mode("overwrite").parquet("E:\\spark_project01\\files\\transformed_data\\parquet\\")
+            transformed_data_path = config.transformed_data_path
+            marital_status_df.write.mode("overwrite").parquet(transformed_data_path)
 
             end_time = datetime.now()
             logger.success(f"------ data transformed successfully ------")
@@ -47,9 +51,9 @@ class DataTransform:
                 start_time=start_time,
                 end_time=end_time,
                 status="Success",
-                file_name="E:\\spark_project01\\files\\transformed_data\\parquet",
+                file_name=transformed_data_path,
                 records_processed=marital_status_df.count(),
-                remarks=f"Data transformed successfully and written to E:\\spark_project01\\files\\transformed_data\\parquet"
+                remarks=f"Data transformed successfully and written to {transformed_data_path}"
             )
 
         except Exception as e:
@@ -67,7 +71,7 @@ class DataTransform:
 
 
 if __name__ == "__main__":
-    file_path = "E:\\spark_project01\\files\\cleaned_data\\parquet"
+    file_path = config.cleaned_data_path
     instance1 = DataTransform(file_path)
     # df=instance1.data_read(file_path)
 

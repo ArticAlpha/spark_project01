@@ -6,4 +6,13 @@ mysql_database = "sunny"
 # data cleaning file location
 csv_file_path = "E:/spark_project01/src/testing/car_sales.csv"
 invalid_price_path = "E:/spark_project01/files/invalid_data/invalid_data.csv"
-cleaned_data_path = "E:/spark_project01/files/cleaned_data/parquet"
+cleaned_data_path = "E:/spark_project01/files/cleaned_data/parquet" #will be used in transformation.py
+
+# Data transformation file location
+transformed_data_path ="E:/spark_project01/files/transformed_data/parquet/"
+
+# Dimension table path
+dimension_base_bath = "E:/spark_project01/files/processed/dimensions/dim_"
+
+# Fact table path
+fact_table_path = "E:/spark_project01/files/processed/transactional_fact"

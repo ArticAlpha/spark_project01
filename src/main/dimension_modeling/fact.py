@@ -3,12 +3,16 @@ from src.main.data_read.read_parquet import read_parquet_file
 from src.main.utility.database_connector import get_mysql_connection
 from datetime import datetime
 from src.main.logs.log_process import log_process
+from resources.dev.load_config import load_config
 
+#getting config details
+config = load_config()
 
 class Facts:
     def __init__(self):
         self.connection = get_mysql_connection()
-        self.df = read_parquet_file("E:\\spark_project01\\files\\transformed_data\\parquet\\")
+        # getting path from config.py
+        self.df = read_parquet_file(config.transformed_data_path)
 
     def read_table_info(self):
 
@@ -161,7 +165,7 @@ class Facts:
                         )
                     )
 
-                fact_df.write.mode("overwrite").parquet(f"E:\\spark_project01\\files\\processed\\transactional_fact")
+                fact_df.write.mode("overwrite").parquet(config.fact_table_path)
                 fact_df.distinct().show(10,truncate=False)
 
 
@@ -172,7 +176,7 @@ class Facts:
                     start_time=start_time,
                     end_time=end_time,
                     status="Success",
-                    file_name=f"E:\\spark_project01\\files\\processed\\transactional_fact",
+                    file_name=config.fact_table_path,
                     records_processed=fact_df.count(),
                     remarks=f"Fact table created successfully"
                 )
