@@ -167,7 +167,7 @@ class Facts:
 
                 # fact_df.write.mode("overwrite").parquet(config.fact_table_path)
                 fact_df.distinct().show(10,truncate=False)
-                truncate_table(dimension_table)
+                truncate_table(dimension_table
                 jdbc_instance = JdbcConnection()
                 jdbc_instance.jdbc_write_table(fact_df, "fact_orders")
 
