@@ -27,6 +27,8 @@ def read_parquet_file(file_path):
 
 
 if __name__ == "__main__":
-    file_path = "E:\\spark_project01\\files\\transformed_data\\parquet\\"
+    # file_path = "E:\\spark_project01\\files\\transformed_data\\parquet\\"
+    file_path = "E:/spark_project01/files/processed/transactional_fact"
     obj1 = read_parquet_file(file_path)
+    obj1.show(5)
 

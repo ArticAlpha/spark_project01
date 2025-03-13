@@ -1,4 +1,3 @@
-from resources.dev.config import dimension_base_bath
 from src.main.utility.spark_session import spark_session
 from loguru import logger
 from pyspark.sql.types import StructType, StructField, IntegerType, StringType, DateType, FloatType
@@ -7,11 +6,15 @@ from src.main.data_read.read_parquet import read_parquet_file
 from datetime import datetime
 from src.main.logs.log_process import log_process
 from resources.dev.load_config import load_config
+from src.main.utility.database_jdbc_connection import jdbc_mysql_connection
+from src.main.utility.truncate_table import truncate_table
+
 
 #getting config details
 config = load_config()
 
 class Dimensions:
+
     def __init__(self, file_path):
         self.spark = spark_session()
         self.df = read_parquet_file(file_path)
@@ -34,17 +37,12 @@ class Dimensions:
             empty_data_df = self.spark.createDataFrame([], schema)
 
             aligned_df = empty_data_df.unionByName(distinct_df, allowMissingColumns=True)
+            aligned_df = aligned_df.select(*[field.name for field in schema.fields])
 
-            aligned_df = aligned_df.withColumn(f"{table_name}_id",
-                                               (monotonically_increasing_id() + 1).cast(IntegerType()))
 
-            aligned_df = aligned_df.select(f"{table_name}_id", *[field.name for field in schema.fields])
-
-            #getting the base path for dimension tables
-            dimension_base_bath=config.dimension_base_bath
-            aligned_df.write.mode("overwrite").parquet(
-                f"{dimension_base_bath}{table_name}")
-            aligned_df.show(5, truncate=False)
+            dimension_table = "dim_"+table_name
+            truncate_table(dimension_table)
+            jdbc_mysql_connection(aligned_df,dimension_table)
 
             #logging
             end_time = datetime.now()
@@ -53,7 +51,6 @@ class Dimensions:
                 start_time=start_time,
                 end_time=end_time,
                 status="Success",
-                file_name=f"{dimension_base_bath}{table_name}",
                 records_processed=aligned_df.count(),
                 remarks=f"{table_name} dimension created successfully"
             )
@@ -71,6 +68,9 @@ class Dimensions:
                 remarks=f"Error occurred while creating dimension: {table_name} error as {str(e)}"
             )
             logger.error(f"------ Error occurred while creating dimension: {table_name} error as {str(e)} ------")
+
+
+
 
     def create_all_dims(self):
         dim_configurations = [
@@ -183,11 +183,11 @@ class Dimensions:
 
         # Loop through each dimension configuration and create dimension tables
         for columns, table_name, schema, rename_columns in dim_configurations:
+            # if table_name=="car":
             self.create_dim_table(list_of_columns=columns, table_name=table_name, schema=schema, rename_columns=rename_columns)
 
 
 if __name__=="__main__":
     file_path = config.transformed_data_path
     instance1 = Dimensions(file_path)
-
     dims = instance1.create_all_dims()

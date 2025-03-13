@@ -73,7 +73,6 @@ class Facts:
                 logger.info("------ reading dimension tables ------")
                 for record in records:
                     table_name = record['table_name']
-                    path = record['path']
                     dataframes[table_name] = read_parquet_file(path)
                 logger.success("------ dimension tables read successfully ------")
 
