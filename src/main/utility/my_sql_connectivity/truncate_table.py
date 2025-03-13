@@ -1,4 +1,4 @@
-from src.main.utility.database_connector import get_mysql_connection
+from src.main.utility.my_sql_connectivity.database_connector import get_mysql_connection
 from loguru import logger
 
 def truncate_table(table_name):

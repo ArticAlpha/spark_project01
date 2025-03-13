@@ -1,5 +1,4 @@
-from http.client import responses
-from src.main.utility.decrypt_s3_client_object import get_s3_client
+from src.main.utility.S3_utilities.decrypt_s3_client_object import get_s3_client
 from loguru import logger
 
 #configure loguru to log messages to a file
@@ -38,4 +37,5 @@ def list_files_in_bucket(bucket_name):
         return None
 
 if __name__=="__main__":
-    list_files_in_bucket("sparks3bucketprojj1")
+    a = list_files_in_bucket("sparks3bucketproj1")
+    print(a)

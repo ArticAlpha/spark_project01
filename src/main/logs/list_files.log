@@ -58,3 +58,19 @@
 2025-02-07 13:19:35.817 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:28 - ------Decryption of aws credentials is successful------
 2025-02-07 13:19:35.817 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:44 - ------Initiating s3 client------
 2025-02-07 13:19:35.909 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:51 - ------Successfully got the s3 client------
+2025-03-13 11:25:12.683 | INFO     | __main__:list_files_in_bucket:15 - ------getting the s3 client------
+2025-03-13 11:25:12.702 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:16 - -------Starting decryption and initiating the s3 client-------
+2025-03-13 11:25:12.706 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:28 - ------Decryption of aws credentials is successful------
+2025-03-13 11:25:12.707 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:44 - ------Initiating s3 client------
+2025-03-13 11:25:12.741 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:51 - ------Successfully got the s3 client------
+2025-03-13 11:25:13.720 | ERROR    | __main__:list_files_in_bucket:37 - An error occurred (NoSuchBucket) when calling the ListObjectsV2 operation: The specified bucket does not exist
+2025-03-13 11:25:41.884 | INFO     | __main__:list_files_in_bucket:15 - ------getting the s3 client------
+2025-03-13 11:25:41.885 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:16 - -------Starting decryption and initiating the s3 client-------
+2025-03-13 11:25:41.890 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:28 - ------Decryption of aws credentials is successful------
+2025-03-13 11:25:41.891 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:44 - ------Initiating s3 client------
+2025-03-13 11:25:41.948 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:51 - ------Successfully got the s3 client------
+2025-03-13 11:26:17.793 | INFO     | __main__:list_files_in_bucket:15 - ------getting the s3 client------
+2025-03-13 11:26:17.794 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:16 - -------Starting decryption and initiating the s3 client-------
+2025-03-13 11:26:17.800 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:28 - ------Decryption of aws credentials is successful------
+2025-03-13 11:26:17.800 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:44 - ------Initiating s3 client------
+2025-03-13 11:26:17.835 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:51 - ------Successfully got the s3 client------

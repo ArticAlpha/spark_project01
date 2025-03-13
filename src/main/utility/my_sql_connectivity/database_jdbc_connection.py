@@ -2,6 +2,7 @@ import mysql.connector
 from resources.dev.load_config import load_config
 from src.main.utility.spark_session import spark_session
 from loguru import logger
+from src.main.utility.my_sql_connectivity.drop_recreate_fact import enable_constraints,disable_constraints
 
 config = load_config()
 
@@ -19,7 +20,7 @@ class JdbcConnection:
     def jdbc_write_table(self,df,table_name):
 
         try:
-
+            disable_constraints()
             df.write.jdbc(
                 url=self.mysql_url,
                 table=table_name,

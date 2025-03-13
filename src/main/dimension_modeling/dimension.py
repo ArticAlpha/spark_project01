@@ -1,13 +1,14 @@
 from src.main.utility.spark_session import spark_session
 from loguru import logger
-from pyspark.sql.types import StructType, StructField, IntegerType, StringType, DateType, FloatType
+from pyspark.sql.types import StructField, IntegerType
 from pyspark.sql.functions import *
 from src.main.data_read.read_parquet import read_parquet_file
 from datetime import datetime
 from src.main.logs.log_process import log_process
 from resources.dev.load_config import load_config
-from src.main.utility.database_jdbc_connection import JdbcConnection
-from src.main.utility.truncate_table import truncate_table
+from src.main.utility.my_sql_connectivity.database_jdbc_connection import JdbcConnection
+from src.main.utility.my_sql_connectivity.truncate_table import truncate_table
+from src.main.utility.my_sql_connectivity.drop_recreate_fact import enable_constraints,disable_constraints
 
 
 #getting config details
@@ -19,12 +20,17 @@ class Dimensions:
         self.spark = spark_session()
         self.df = read_parquet_file(file_path)
 
+        # truncating the fact tables
+
+        truncate_table("fact_orders")
+
     def create_dim_table(self, list_of_columns, table_name, schema, rename_columns=None):
         if self.df is None:
             logger.error("No file present to process")
         start_time = datetime.now()
         try:
             logger.info(f"------ creating {table_name} dimension -------")
+
 
             distinct_df = self.df.select(list_of_columns).distinct()
 
@@ -100,11 +106,12 @@ class Dimensions:
                     StructField("pincode", IntegerType(), True),  # Pincode of the showroom's location
                     StructField("phone", StringType(), True)  # Phone number of the showroom
                 ]),
-                {"showroom_name": "name",
-                 "showroom_address": "address",
-                 "showroom_pincode": "pincode",
-                 "showroom_phone":"phone"
-                 }  # Rename sales_rep_name to name  # No renaming for this dimension
+                # {"showroom_name": "name",
+                #  "showroom_address": "address",
+                #  "showroom_pincode": "pincode",
+                #  "showroom_phone":"phone"
+                #  }  # Rename sales_rep_name to name  # No renaming for this dimension
+                None
             ),
             (
                 ["sales_rep_name", "sales_rep_phone", "sales_rep_email"],
@@ -115,28 +122,13 @@ class Dimensions:
                     StructField("phone", StringType(), True),  # Phone number of the sales representative
                     StructField("email", StringType(), True)  # Email address of the sales representative
                 ]),
-                {"sales_rep_name": "name",
-                 "sales_rep_phone": "phone",
-                 "sales_rep_email": "email"
-                 }  # Rename sales_rep_name to name
+                # {"sales_rep_name": "name",
+                #  "sales_rep_phone": "phone",
+                #  "sales_rep_email": "email"
+                #  }  # Rename sales_rep_name to name
+                None
             ),
-            (
-                ["customer_name", "customer_age", "customer_email", "customer_phone", "customer_address"],
-                "customer",
-                StructType([
-                    # StructField("customer_id", IntegerType(), False),  # Unique ID for the customer
-                    StructField("name", StringType(), True),  # Name of the customer
-                    StructField("age", IntegerType(), True),  # Age of the customer
-                    StructField("email", StringType(), True),  # Email address of the customer
-                    StructField("phone", StringType(), True),  # Phone number of the customer
-                    StructField("address", StringType(), True)  # Address of the customer
-                ]),
-                {"customer_name": "name",
-                 "customer_age": "age",
-                 "customer_email": "email",
-                 "customer_phone": "phone",
-                 "customer_address": "address"}  # Rename customer details
-            ),
+
             (
                 ["payment_method"],
                 "payment_method",
@@ -179,13 +171,23 @@ class Dimensions:
                     StructField("marital_status", StringType(), True)  # Marital status of the customer
                 ]),
                 None  # No renaming for this dimension
+            ),
+            (
+                ["department"],
+                "department",
+                StructType([
+                    StructField("department", StringType(), True)  # Marital status of the customer
+                ]),
+                None  # No renaming for this dimension
             )
         ]
 
         # Loop through each dimension configuration and create dimension tables
         for columns, table_name, schema, rename_columns in dim_configurations:
-            # if table_name=="car":
-            self.create_dim_table(list_of_columns=columns, table_name=table_name, schema=schema, rename_columns=rename_columns)
+            if table_name=="car":
+                self.create_dim_table(list_of_columns=columns, table_name=table_name, schema=schema, rename_columns=rename_columns)
+
+
 
 
 if __name__=="__main__":

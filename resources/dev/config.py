@@ -16,3 +16,9 @@ dimension_base_bath = "E:/spark_project01/files/processed/dimensions/dim_"
 
 # Fact table path
 fact_table_path = "E:/spark_project01/files/processed/transactional_fact"
+
+
+# upload.py
+file_path_to_upload = "E:/spark_project01/files/transformed_data/parquet/part-00000-ed1c252d-c7ea-4d8b-9c5b-a9f28844dc78-c000.snappy.parquet"  # Replace with your file path
+bucket_name = "sparks3bucketproj1"  # Replace with your bucket name
+folder = "transformed_data"

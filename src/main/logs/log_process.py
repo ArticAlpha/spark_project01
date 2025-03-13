@@ -1,5 +1,5 @@
 from loguru import logger
-from src.main.utility.database_connector import get_mysql_connection
+from src.main.utility.my_sql_connectivity.database_connector import get_mysql_connection
 from datetime import datetime
 
 def log_process(process_name, start_time, end_time, status,

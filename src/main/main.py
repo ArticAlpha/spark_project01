@@ -6,7 +6,7 @@ from src.main.dimension_modeling.fact import Facts
 from resources.dev.load_config import load_config
 from datetime import datetime
 from src.main.logs.log_process import log_process
-
+from src.main.utility.S3_utilities.upload import upload_to_s3
 config = load_config()
 
 
@@ -47,6 +47,12 @@ def main():
         list1 = instance1.read_table_info()
         dim_dicts = instance1.read_dim(list1)
         instance1.create_fact(dim_dicts)
+
+        # uploading transformed data to S3
+        file_name = config.file_path_to_upload
+        bucket_name = config.bucket_name # Replace with your bucket name
+        folder = config.folder  # Replace with the desired folder in the bucket
+        upload_to_s3(file_name, bucket_name, folder)
 
         #ending time of the whole process
         end_time = datetime.now()

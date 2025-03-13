@@ -5,17 +5,19 @@ from datetime import datetime
 from src.main.logs.log_process import log_process
 from resources.dev.load_config import load_config
 from src.main.utility.my_sql_connectivity.database_jdbc_connection import JdbcConnection
+from src.main.utility.my_sql_connectivity.drop_recreate_fact import enable_constraints,disable_constraints
+
 
 #getting config details
 config = load_config()
 
-class Facts:
+class CustomDimensions:
     def __init__(self):
         self.connection = get_mysql_connection()
         # getting path from config.py
         self.df = read_parquet_file(config.transformed_data_path)
 
-    def read_table_info(self):
+    def read_dimension_info(self):
 
         start_time = datetime.now()
         try:
@@ -27,7 +29,7 @@ class Facts:
                 cursor = self.connection.cursor(dictionary=True)
 
                 # Execute the query to read the table
-                cursor.execute("SELECT * FROM dim_paths")
+                cursor.execute("SELECT * FROM dimension_dependencies")
 
                 # Fetch all rows from the table
                 records = cursor.fetchall()
@@ -72,7 +74,7 @@ class Facts:
             try:
                 logger.info("------ Reading dimension tables ------")
                 for record in records:
-                    table_name = record['table_name']
+                    table_name = record['dependent_table']
                     jdbc_instance1 = JdbcConnection()
                     dataframes[table_name] = jdbc_instance1.jdbc_read_table(table_name)
                 logger.success("------ Dimension tables read successfully ------")
@@ -199,8 +201,9 @@ class Facts:
 
 # print(read_table_info())
 if __name__ =="__main__":
-    instance1 = Facts()
-    list1 = instance1.read_table_info()
+    instance1 = CustomDimensions()
+    list1 = instance1.read_dimension_info()
+    # print(list1)
     dim_dicts = instance1.read_dim(list1)
-    # # print(fact(dim_dicts))
-    instance1.create_fact(dim_dicts)
+    # # # print(fact(dim_dicts))
+    # instance1.create_fact(dim_dicts)
