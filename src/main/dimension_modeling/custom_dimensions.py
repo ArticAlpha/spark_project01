@@ -9,8 +9,6 @@ from src.main.utility.my_sql_connectivity.database_jdbc_connection import JdbcCo
 from src.main.utility.my_sql_connectivity.truncate_table import truncate_table
 from src.main.utility.my_sql_connectivity.drop_recreate_fact import generate_constraints,drop_constraints
 
-
-
 #getting config details
 config = load_config()
 
