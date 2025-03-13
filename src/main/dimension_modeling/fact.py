@@ -116,15 +116,12 @@ class Facts:
             start_time = datetime.now()
             try:
                 logger.info("------ Fact table creation initiated ------")
-                dim_color = dim_dict['dim_color']
                 dim_car = dim_dict['dim_car']
                 dim_customer = dim_dict['dim_customer']
                 dim_order_status = dim_dict['dim_order_status']
                 dim_payment_method = dim_dict['dim_payment_method']
                 dim_sales_rep = dim_dict['dim_sales_rep']
                 dim_showroom = dim_dict['dim_showroom']
-                dim_gender = dim_dict['dim_gender']
-                dim_marital_status = dim_dict['dim_marital_status']
                 # dim_order_status.show(1000,truncate=False)
                 processed_df = self.df
                 #
@@ -133,27 +130,21 @@ class Facts:
                 fact_df = (
                     processed_df
                     .join(dim_car, processed_df["model"] == dim_car["model"], "left")
-                    .join(dim_color, processed_df["color"] == dim_color["color"], "left")
-                    .join(dim_customer, processed_df["customer_name"] == dim_customer["name"], "left")
+                    .join(dim_customer, processed_df["customer_name"] == dim_customer["customer_name"], "left")
                     .join(dim_order_status, processed_df["order_status"] == dim_order_status["order_status"], "left")
                     .join(dim_payment_method, processed_df["payment_method"] == dim_payment_method["payment_method"], "left")
-                    .join(dim_sales_rep, processed_df["sales_rep_name"] == dim_sales_rep["name"], "left")
-                    .join(dim_showroom, processed_df["showroom_name"] == dim_showroom["name"], "left")
-                    .join(dim_gender, processed_df["gender"] == dim_gender["gender"], "left")
-                    .join(dim_marital_status, processed_df["marital_status"] == dim_marital_status["marital_status"], "left")
+                    .join(dim_sales_rep, processed_df["sales_rep_name"] == dim_sales_rep["sales_rep_name"], "left")
+                    .join(dim_showroom, processed_df["showroom_name"] == dim_showroom["showroom_name"], "left")
 
                     .select(
                         processed_df["order_id"].alias("order_id"),
                         dim_car["car_id"].alias("car_id"),
                         # dim_car["model"].alias("model"),
-                        dim_color["color_id"].alias("color_id"),
                         dim_customer["customer_id"].alias("customer_id"),
                         dim_order_status["order_status_id"].alias("order_status_id"),
                         dim_sales_rep["sales_rep_id"].alias("sales_rep_id"),
                         dim_payment_method["payment_method_id"].alias("payment_method_id"),
                         dim_showroom["showroom_id"].alias("showroom_id"),
-                        dim_gender["gender_id"].alias("gender_id"),
-                        dim_marital_status["marital_status_id"].alias("marital_status_id"),
 
                         processed_df["discounted_price"].alias("discounted_price"),
                         processed_df["order_date"].alias("order_date"),
