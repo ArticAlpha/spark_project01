@@ -4,6 +4,7 @@ from src.main.utility.database_connector import get_mysql_connection
 from datetime import datetime
 from src.main.logs.log_process import log_process
 from resources.dev.load_config import load_config
+from src.main.utility.database_jdbc_connection import JdbcConnection
 
 #getting config details
 config = load_config()
@@ -69,12 +70,12 @@ class Facts:
         if records:
             start_time = datetime.now()
             try:
-
-                logger.info("------ reading dimension tables ------")
+                logger.info("------ Reading dimension tables ------")
                 for record in records:
                     table_name = record['table_name']
-                    dataframes[table_name] = read_parquet_file(path)
-                logger.success("------ dimension tables read successfully ------")
+                    jdbc_instance1 = JdbcConnection()
+                    dataframes[table_name] = jdbc_instance1.jdbc_read_table(table_name)
+                logger.success("------ Dimension tables read successfully ------")
 
                 end_time=datetime.now()
                 log_process(
@@ -95,9 +96,9 @@ class Facts:
                     status="Failed",
                     remarks=f"Unable to create Dataframes"
                 )
-                logger.error(f"------ error reading the dimension tables {str(e)}")
+                logger.error(f"------ Error reading the dimension tables {str(e)}")
         else:
-            logger.error("------ dimension tables provided to process ------")
+            logger.error("------ Dimension tables provided to process ------")
             log_process(
                 process_name="Create Dataframes from dimension tables",
                 start_time=datetime.now(),
@@ -113,7 +114,7 @@ class Facts:
         if dim_dict:
             start_time = datetime.now()
             try:
-                logger.info("------ fact table creation initiated ------")
+                logger.info("------ Fact table creation initiated ------")
                 dim_color = dim_dict['dim_color']
                 dim_car = dim_dict['dim_car']
                 dim_customer = dim_dict['dim_customer']
@@ -164,11 +165,13 @@ class Facts:
                         )
                     )
 
-                fact_df.write.mode("overwrite").parquet(config.fact_table_path)
+                # fact_df.write.mode("overwrite").parquet(config.fact_table_path)
                 fact_df.distinct().show(10,truncate=False)
 
+                jdbc_instance = JdbcConnection()
+                jdbc_instance.jdbc_write_table(fact_df, "fact_orders")
 
-                logger.success("------ fact table created successfully ------")
+                logger.success("------ Fact table created successfully ------")
                 end_time = datetime.now()
                 log_process(
                     process_name="Fact table creation",
@@ -189,9 +192,9 @@ class Facts:
                     records_processed=0,
                     remarks=f"Fact table creation failed"
                 )
-                logger.error(f"------ error occurred while creating fact table {str(e)} ------")
+                logger.error(f"------ Error occurred while creating fact table {str(e)} ------")
         else:
-            logger.error("------ unable to create fact table ------")
+            logger.error("------ Unable to create fact table ------")
 
 
 # print(read_table_info())

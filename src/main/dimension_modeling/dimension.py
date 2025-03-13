@@ -6,7 +6,7 @@ from src.main.data_read.read_parquet import read_parquet_file
 from datetime import datetime
 from src.main.logs.log_process import log_process
 from resources.dev.load_config import load_config
-from src.main.utility.database_jdbc_connection import jdbc_mysql_connection
+from src.main.utility.database_jdbc_connection import JdbcConnection
 from src.main.utility.truncate_table import truncate_table
 
 
@@ -42,7 +42,8 @@ class Dimensions:
 
             dimension_table = "dim_"+table_name
             truncate_table(dimension_table)
-            jdbc_mysql_connection(aligned_df,dimension_table)
+            jdbc_instance = JdbcConnection()
+            jdbc_instance.jdbc_write_table(aligned_df,dimension_table)
 
             #logging
             end_time = datetime.now()
