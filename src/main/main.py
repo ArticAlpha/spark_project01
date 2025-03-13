@@ -2,6 +2,7 @@ from loguru import logger
 from src.main.data_cleaning.data_cleaning import DataCleaning
 from src.main.data_transformation.transformation import DataTransform
 from src.main.dimension_modeling.dimension import Dimensions
+from src.main.dimension_modeling.custom_dimensions import CustomDimensions
 from src.main.dimension_modeling.fact import Facts
 from resources.dev.load_config import load_config
 from datetime import datetime
@@ -41,14 +42,19 @@ def main():
         instance1 = Dimensions(file_path)
         dims = instance1.create_all_dims()
 
+        # Step 4: Custom Dimension Creation
+        instance1 = CustomDimensions()
+        list1 = instance1.read_dimension_info()
+        dim_dicts = instance1.read_dim(list1)
+        instance1.create_custom_dim(dim_dicts)
 
-        # Step 4: Fact Table Creation
+        # Step 5: Fact Table Creation
         instance1 = Facts()
         list1 = instance1.read_table_info()
         dim_dicts = instance1.read_dim(list1)
         instance1.create_fact(dim_dicts)
 
-        # uploading transformed data to S3
+        # Step 6: Uploading transformed data to S3
         file_name = config.file_path_to_upload
         bucket_name = config.bucket_name # Replace with your bucket name
         folder = config.folder  # Replace with the desired folder in the bucket
