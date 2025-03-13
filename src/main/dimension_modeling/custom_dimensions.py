@@ -1,11 +1,14 @@
 from loguru import logger
 from src.main.data_read.read_parquet import read_parquet_file
 from src.main.utility.my_sql_connectivity.database_connector import get_mysql_connection
+from pyspark.sql.types import StructField, IntegerType,StringType,StructType
 from datetime import datetime
 from src.main.logs.log_process import log_process
 from resources.dev.load_config import load_config
 from src.main.utility.my_sql_connectivity.database_jdbc_connection import JdbcConnection
-from src.main.utility.my_sql_connectivity.drop_recreate_fact import enable_constraints,disable_constraints
+from src.main.utility.my_sql_connectivity.truncate_table import truncate_table
+from src.main.utility.my_sql_connectivity.drop_recreate_fact import generate_constraints,drop_constraints
+
 
 
 #getting config details
@@ -79,6 +82,9 @@ class CustomDimensions:
                     dataframes[table_name] = jdbc_instance1.jdbc_read_table(table_name)
                 logger.success("------ Dimension tables read successfully ------")
 
+
+
+
                 end_time=datetime.now()
                 log_process(
                     process_name="Create Dataframes from dimension tables",
@@ -111,99 +117,119 @@ class CustomDimensions:
 
 
 
-    def create_fact(self,dim_dict):
+    def create_custom_dim(self,dim_dict):
+        try:
+            tables = ["fact_orders","dim_customer", "dim_sales_rep","dim_car"]
+            # dropping constraints of the tables
+            drop_constraints(tables)
 
-        if dim_dict:
-            start_time = datetime.now()
-            try:
-                logger.info("------ Fact table creation initiated ------")
-                dim_color = dim_dict['dim_color']
-                dim_car = dim_dict['dim_car']
-                dim_customer = dim_dict['dim_customer']
-                dim_order_status = dim_dict['dim_order_status']
-                dim_payment_method = dim_dict['dim_payment_method']
-                dim_sales_rep = dim_dict['dim_sales_rep']
-                dim_showroom = dim_dict['dim_showroom']
-                dim_gender = dim_dict['dim_gender']
-                dim_marital_status = dim_dict['dim_marital_status']
-                # dim_order_status.show(1000,truncate=False)
-                processed_df = self.df
-                #
-                # # processed_df.limit(10).show()
-                #
-                fact_df = (
-                    processed_df
-                    .join(dim_car, processed_df["model"] == dim_car["model"], "left")
-                    .join(dim_color, processed_df["color"] == dim_color["color"], "left")
-                    .join(dim_customer, processed_df["customer_name"] == dim_customer["name"], "left")
-                    .join(dim_order_status, processed_df["order_status"] == dim_order_status["order_status"], "left")
-                    .join(dim_payment_method, processed_df["payment_method"] == dim_payment_method["payment_method"], "left")
-                    .join(dim_sales_rep, processed_df["sales_rep_name"] == dim_sales_rep["name"], "left")
-                    .join(dim_showroom, processed_df["showroom_name"] == dim_showroom["name"], "left")
-                    .join(dim_gender, processed_df["gender"] == dim_gender["gender"], "left")
-                    .join(dim_marital_status, processed_df["marital_status"] == dim_marital_status["marital_status"], "left")
-
-                    .select(
-                        processed_df["order_id"].alias("order_id"),
-                        dim_car["car_id"].alias("car_id"),
-                        # dim_car["model"].alias("model"),
-                        dim_color["color_id"].alias("color_id"),
-                        dim_customer["customer_id"].alias("customer_id"),
-                        dim_order_status["order_status_id"].alias("order_status_id"),
-                        dim_sales_rep["sales_rep_id"].alias("sales_rep_id"),
-                        dim_payment_method["payment_method_id"].alias("payment_method_id"),
-                        dim_showroom["showroom_id"].alias("showroom_id"),
-                        dim_gender["gender_id"].alias("gender_id"),
-                        dim_marital_status["marital_status_id"].alias("marital_status_id"),
-
-                        processed_df["discounted_price"].alias("discounted_price"),
-                        processed_df["order_date"].alias("order_date"),
-                        processed_df["expected_delivery_date"].alias("expected_delivery_date"),
-                        processed_df["commission_obtained"].alias("commission_obtained"),
-                        processed_df["warranty_period"].alias("warranty_period"),
-                        processed_df["warranty_expiration_date"].alias("warranty_expiration_date"),
-                        processed_df["profit_margin"].alias("profit_margin"),
-                        processed_df["vin"].alias("vin")
-                        )
-                    )
-
-                # fact_df.write.mode("overwrite").parquet(config.fact_table_path)
-                fact_df.distinct().show(10,truncate=False)
-
-                jdbc_instance = JdbcConnection()
-                jdbc_instance.jdbc_write_table(fact_df, "fact_orders")
-
-                logger.success("------ Fact table created successfully ------")
-                end_time = datetime.now()
-                log_process(
-                    process_name="Fact table creation",
-                    start_time=start_time,
-                    end_time=end_time,
-                    status="Success",
-                    file_name=config.fact_table_path,
-                    records_processed=fact_df.count(),
-                    remarks=f"Fact table created successfully"
+            custom_dim_configurations = [
+                (
+                    ["sales_rep_name", "sales_rep_phone", "sales_rep_email","sales_rep_department"],
+                    "sales_rep",
+                    StructType([
+                        StructField("sales_rep_name", StringType(), True),
+                        StructField("sales_rep_phone", StringType(), True),
+                        StructField("sales_rep_email", StringType(), True),
+                        StructField("department_id", IntegerType(), True) # Replace sales_rep_department with department_id
+                    ])
+                ),
+                ( ["make", "model", "engine_type", "mileage", "fuel_type", "price", "color"],
+                "car",
+                StructType([
+                    StructField("make", StringType(), True),
+                    StructField("model", StringType(), True),
+                    StructField("engine_type", StringType(), True),
+                    StructField("mileage", IntegerType(), True),
+                    StructField("fuel_type", StringType(), True),
+                    StructField("price", StringType(), True),
+                    StructField("color_id", IntegerType(), True)  # Replace color with color_id
+                ])
+            ),
+                (
+                    ["customer_name", "customer_age", "customer_email", "customer_phone", "customer_address", "gender",
+                     "marital_status"],
+                    "customer",
+                    StructType([
+                        StructField("customer_name", StringType(), True),
+                        StructField("customer_age", IntegerType(), True),
+                        StructField("customer_email", StringType(), True),
+                        StructField("customer_phone", StringType(), True),
+                        StructField("customer_address", StringType(), True),
+                        StructField("gender_id", IntegerType(), True),  # Replace gender with gender_id
+                        StructField("marital_status_id", IntegerType(), True)
+                        # Replace marital_status with marital_status_id
+                    ])
                 )
-            except Exception as e:
-                end_time = datetime.now()
-                log_process(
-                    process_name="Fact table creation",
-                    start_time=start_time,
-                    end_time=end_time,
-                    status="Failed",
-                    records_processed=0,
-                    remarks=f"Fact table creation failed"
-                )
-                logger.error(f"------ Error occurred while creating fact table {str(e)} ------")
-        else:
-            logger.error("------ Unable to create fact table ------")
+            ]
+
+            if dim_dict:
+                custom_dim_dicts = {}
+                for list_of_columns, table_name, schema in custom_dim_configurations:
+                    if table_name == "car":
+                        dim_color = dim_dict['dim_color']
+                        processed_df = self.df.select(list_of_columns).distinct()
+
+                        custom_df = (
+                        processed_df
+                        .join(dim_color, processed_df["color"] == dim_color["color"], "left")
+                        .select(
+                            *[processed_df[col] for col in list_of_columns if col!='color'],
+                            dim_color["color_id"].alias("color_id")
+                        ))
+
+                        custom_dim_dicts[table_name]=custom_df
+                    elif table_name =="sales_rep":
+                        dim_sales_rep = dim_dict['dim_department']
+                        processed_df = self.df.select(list_of_columns).distinct()
+
+                        custom_df = (
+                            processed_df
+                            .join(dim_sales_rep, processed_df["sales_rep_department"] == dim_sales_rep["department_name"], "left")
+                            .select(
+                                *[processed_df[col] for col in list_of_columns if col != 'sales_rep_department'],
+                                dim_sales_rep["department_id"]
+                            ))
+                        custom_dim_dicts[table_name]=custom_df
+                    else :
+                        dim_gender = dim_dict['dim_gender']
+                        dim_marital_status = dim_dict['dim_marital_status']
+                        processed_df = self.df.select(list_of_columns).distinct()
+
+                        custom_df = (
+                            processed_df
+                            .join(dim_gender,processed_df["gender"] == dim_gender["gender"], "left")
+                            .join(dim_marital_status, processed_df["marital_status"] == dim_marital_status["marital_status"], "left")
+                            .select(
+                                *[processed_df[col] for col in list_of_columns if col != 'gender' and col!='marital_status'],
+                                dim_gender["gender_id"],
+                                dim_marital_status["marital_status_id"]
+                            ))
+                        custom_dim_dicts[table_name] = custom_df
+
+
+                for key in custom_dim_dicts:
+                    dimension_table = "dim_" + key
+                    truncate_table(dimension_table)
+                    jdbc_instance = JdbcConnection()
+                    jdbc_instance.jdbc_write_table(custom_dim_dicts[key], dimension_table)
+                    custom_dim_dicts[key].show(5)
+
+        except Exception as e:
+            logger.error(f"Error occurred while creating custom dimensions: {str(e)}")
+        finally:
+            logger.info("re-creating constraints")
+            generate_constraints()
+
 
 
 # print(read_table_info())
 if __name__ =="__main__":
     instance1 = CustomDimensions()
     list1 = instance1.read_dimension_info()
-    # print(list1)
     dim_dicts = instance1.read_dim(list1)
-    # # # print(fact(dim_dicts))
-    # instance1.create_fact(dim_dicts)
+    instance1.create_custom_dim(dim_dicts)
+
+
+
+
