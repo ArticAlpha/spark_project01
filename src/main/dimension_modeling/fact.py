@@ -5,6 +5,7 @@ from datetime import datetime
 from src.main.logs.log_process import log_process
 from resources.dev.load_config import load_config
 from src.main.utility.my_sql_connectivity.database_jdbc_connection import JdbcConnection
+from src.main.utility.my_sql_connectivity.truncate_table import truncate_table
 
 #getting config details
 config = load_config()
@@ -167,7 +168,7 @@ class Facts:
 
                 # fact_df.write.mode("overwrite").parquet(config.fact_table_path)
                 fact_df.distinct().show(10,truncate=False)
-                truncate_table(dimension_table
+                truncate_table(dimension_table)
                 jdbc_instance = JdbcConnection()
                 jdbc_instance.jdbc_write_table(fact_df, "fact_orders")
 
