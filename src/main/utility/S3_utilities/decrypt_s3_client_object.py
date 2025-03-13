@@ -2,8 +2,7 @@ import ast
 import boto3
 from cryptography.fernet import Fernet
 from loguru import logger
-
-base_path = "/resources/dev\\"
+base_path = "E:/spark_project01/resources/dev/"
 #configure loguru to log messages to a file
 logger.add("/src/main/logs/decryption.log", rotation="10 MB", level="INFO")
 def decrypt_credentials():
