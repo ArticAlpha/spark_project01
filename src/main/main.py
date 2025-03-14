@@ -55,10 +55,10 @@ def main():
         instance1.create_fact(dim_dicts)
 
         # Step 6: Uploading transformed data to S3
-        file_name = config.file_path_to_upload
-        bucket_name = config.bucket_name # Replace with your bucket name
-        folder = config.folder  # Replace with the desired folder in the bucket
-        upload_to_s3(file_name, bucket_name, folder)
+        transformed_data_folder = config.transformed_data_folder # Replace with your file path
+        bucket_name = config.bucket_name  # Replace with your bucket name
+        S3_folder = config.bucket_name
+        upload_to_s3(transformed_data_folder, bucket_name, S3_folder)
 
         #ending time of the whole process
         end_time = datetime.now()

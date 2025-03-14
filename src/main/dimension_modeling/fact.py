@@ -28,7 +28,7 @@ class Facts:
                 cursor = self.connection.cursor(dictionary=True)
 
                 # Execute the query to read the table
-                cursor.execute("SELECT * FROM dim_paths")
+                cursor.execute("SELECT * FROM dim_details")
 
                 # Fetch all rows from the table
                 records = cursor.fetchall()
