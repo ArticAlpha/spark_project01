@@ -1,9 +1,8 @@
-from src.main.utility.spark_session import spark_session
 from loguru import logger
 from pyspark.sql.functions import *
 from src.main.data_read.read_parquet import read_parquet_file
 from datetime import datetime
-from src.main.logs.log_process import log_process
+from src.main.utility.my_sql_connectivity.log_process import log_process
 from resources.dev.load_config import load_config
 
 #getting config details

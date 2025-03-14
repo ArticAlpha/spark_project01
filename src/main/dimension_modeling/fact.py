@@ -2,7 +2,7 @@ from loguru import logger
 from src.main.data_read.read_parquet import read_parquet_file
 from src.main.utility.my_sql_connectivity.database_connector import get_mysql_connection
 from datetime import datetime
-from src.main.logs.log_process import log_process
+from src.main.utility.my_sql_connectivity.log_process import log_process
 from resources.dev.load_config import load_config
 from src.main.utility.my_sql_connectivity.database_jdbc_connection import JdbcConnection
 from src.main.utility.my_sql_connectivity.truncate_table import truncate_table

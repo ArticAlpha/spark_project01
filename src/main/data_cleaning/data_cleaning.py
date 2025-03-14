@@ -1,10 +1,9 @@
 from loguru import logger
-from pyspark.sql.types import StructType, StructField, IntegerType, StringType, DateType, FloatType
+from pyspark.sql.types import StructField, IntegerType, DateType, FloatType
 from pyspark.sql.functions import *
-from functools import reduce
 from src.main.data_read.read_csv_file import read_csv
 from datetime import datetime
-from src.main.logs.log_process import log_process
+from src.main.utility.my_sql_connectivity.log_process import log_process
 from resources.dev.load_config import load_config
 
 config = load_config()

@@ -2,7 +2,7 @@ from src.main.utility.S3_utilities.decrypt_s3_client_object import get_s3_client
 from datetime import datetime
 import os
 from loguru import logger
-from src.main.logs.log_process import log_process
+from src.main.utility.my_sql_connectivity.log_process import log_process
 
 
 def upload_to_s3(transformed_data_folder, bucket_name, S3_folder=None):

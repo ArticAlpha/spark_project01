@@ -6,7 +6,7 @@ from src.main.dimension_modeling.custom_dimensions import CustomDimensions
 from src.main.dimension_modeling.fact import Facts
 from resources.dev.load_config import load_config
 from datetime import datetime
-from src.main.logs.log_process import log_process
+from src.main.utility.my_sql_connectivity.log_process import log_process
 from src.main.utility.S3_utilities.upload import upload_to_s3
 config = load_config()
 

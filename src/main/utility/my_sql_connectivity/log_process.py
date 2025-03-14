@@ -42,7 +42,7 @@ if __name__=="__main__":
         start_time=datetime.now(),
         end_time=datetime.now(),
         status="Success",
-        file_name="E:\\spark_project01\\files\\transformed_data\\parquet",
+        file_name="/files/transformed_data/parquet",
         records_processed=0,
         remarks=f"Data transformed successfully and written to E:\\spark_project01\\files\\transformed_data\\parquet"
     )
