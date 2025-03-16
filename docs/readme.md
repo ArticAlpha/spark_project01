@@ -57,7 +57,12 @@ AWS S3 bucket access (with credentials).
 MySQL setup for metadata storage.
 
 ## Python dependencies:
-* pyspark
 * boto3
-* apache-airflow
+* cryptography
+* loguru
+* pyspark
+* findspark
 * mysql-connector-python
+
+
+
