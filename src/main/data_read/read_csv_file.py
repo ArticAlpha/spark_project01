@@ -20,7 +20,7 @@ def read_csv(file_path,schema):
 
     except Exception as e:
         logger.error(f"Error reading the csv file:{e}")
-        return None
+        return False
 
 
 # csv_file_path= "E:/spark_project01/src/testing/car_sales.csv"

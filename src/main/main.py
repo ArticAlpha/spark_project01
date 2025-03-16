@@ -1,3 +1,5 @@
+import os
+import time
 from loguru import logger
 from src.main.data_cleaning.data_cleaning import DataCleaning
 from src.main.data_transformation.transformation import DataTransform
@@ -42,6 +44,7 @@ def main():
         instance1 = Dimensions(file_path)
         dims = instance1.create_all_dims()
 
+        time.sleep(20)
         # Step 4: Custom Dimension Creation
         instance1 = CustomDimensions()
         list1 = instance1.read_dimension_info()

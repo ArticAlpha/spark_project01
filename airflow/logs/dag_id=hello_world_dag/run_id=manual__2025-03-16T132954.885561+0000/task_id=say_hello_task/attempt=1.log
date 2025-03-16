@@ -1,0 +1,20 @@
+[2025-03-16T13:29:57.385+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2025-03-16T13:29:57.413+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: hello_world_dag.say_hello_task manual__2025-03-16T13:29:54.885561+00:00 [queued]>
+[2025-03-16T13:29:57.433+0000] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: hello_world_dag.say_hello_task manual__2025-03-16T13:29:54.885561+00:00 [queued]>
+[2025-03-16T13:29:57.434+0000] {taskinstance.py:2866} INFO - Starting attempt 1 of 2
+[2025-03-16T13:29:57.459+0000] {taskinstance.py:2889} INFO - Executing <Task(PythonOperator): say_hello_task> on 2025-03-16 13:29:54.885561+00:00
+[2025-03-16T13:29:57.467+0000] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=138) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2025-03-16T13:29:57.470+0000] {standard_task_runner.py:72} INFO - Started process 139 to run task
+[2025-03-16T13:29:57.471+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'hello_world_dag', 'say_hello_task', 'manual__2025-03-16T13:29:54.885561+00:00', '--job-id', '23', '--raw', '--subdir', 'DAGS_FOLDER/my_first_dag.py', '--cfg-path', '/tmp/tmp7hqaluw0']
+[2025-03-16T13:29:57.474+0000] {standard_task_runner.py:105} INFO - Job 23: Subtask say_hello_task
+[2025-03-16T13:29:57.560+0000] {task_command.py:467} INFO - Running <TaskInstance: hello_world_dag.say_hello_task manual__2025-03-16T13:29:54.885561+00:00 [running]> on host e8ff8b4f9a7d
+[2025-03-16T13:29:57.715+0000] {taskinstance.py:3132} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='hello_world_dag' AIRFLOW_CTX_TASK_ID='say_hello_task' AIRFLOW_CTX_EXECUTION_DATE='2025-03-16T13:29:54.885561+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-03-16T13:29:54.885561+00:00'
+[2025-03-16T13:29:57.717+0000] {taskinstance.py:731} INFO - ::endgroup::
+[2025-03-16T13:29:57.807+0000] {python.py:240} INFO - Done. Returned value was: Hello
+[2025-03-16T13:29:57.851+0000] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2025-03-16T13:29:57.852+0000] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=hello_world_dag, task_id=say_hello_task, run_id=manual__2025-03-16T13:29:54.885561+00:00, execution_date=20250316T132954, start_date=20250316T132957, end_date=20250316T132957
+[2025-03-16T13:29:57.890+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2025-03-16T13:29:57.926+0000] {taskinstance.py:3895} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-03-16T13:29:57.930+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

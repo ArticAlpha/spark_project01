@@ -1,6 +1,9 @@
 boto3
 cryptography
-
 loguru
 pyspark
 findspark
+mysql-connector-python
+
+
+check whether we need discounted flag where we have discount applied or discounted price column is enough
