@@ -122,3 +122,37 @@
 2025-02-07 16:16:43.104 | INFO     | __main__:download_files:54 - ------ Starting the files download ------
 2025-02-07 16:16:43.105 | INFO     | __main__:list_files:29 - ------ Getting the list of files ------
 2025-02-07 16:16:44.454 | INFO     | __main__:download_files:63 - ------ Files downloaded successfully and saved to E:\spark_project01\files\raw_files and size is 1.3498342037200928 ------
+2025-03-13 11:25:12.683 | INFO     | __main__:list_files_in_bucket:15 - ------getting the s3 client------
+2025-03-13 11:25:12.702 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:16 - -------Starting decryption and initiating the s3 client-------
+2025-03-13 11:25:12.706 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:28 - ------Decryption of aws credentials is successful------
+2025-03-13 11:25:12.707 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:44 - ------Initiating s3 client------
+2025-03-13 11:25:12.741 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:51 - ------Successfully got the s3 client------
+2025-03-13 11:25:13.720 | ERROR    | __main__:list_files_in_bucket:37 - An error occurred (NoSuchBucket) when calling the ListObjectsV2 operation: The specified bucket does not exist
+2025-03-13 11:25:41.884 | INFO     | __main__:list_files_in_bucket:15 - ------getting the s3 client------
+2025-03-13 11:25:41.885 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:16 - -------Starting decryption and initiating the s3 client-------
+2025-03-13 11:25:41.890 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:28 - ------Decryption of aws credentials is successful------
+2025-03-13 11:25:41.891 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:44 - ------Initiating s3 client------
+2025-03-13 11:25:41.948 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:51 - ------Successfully got the s3 client------
+2025-03-13 11:26:17.793 | INFO     | __main__:list_files_in_bucket:15 - ------getting the s3 client------
+2025-03-13 11:26:17.794 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:16 - -------Starting decryption and initiating the s3 client-------
+2025-03-13 11:26:17.800 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:28 - ------Decryption of aws credentials is successful------
+2025-03-13 11:26:17.800 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:44 - ------Initiating s3 client------
+2025-03-13 11:26:17.835 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:51 - ------Successfully got the s3 client------
+2025-03-13 11:27:56.441 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:16 - -------Starting decryption and initiating the s3 client-------
+2025-03-13 11:27:56.445 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:28 - ------Decryption of aws credentials is successful------
+2025-03-13 11:27:56.445 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:44 - ------Initiating s3 client------
+2025-03-13 11:27:56.484 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:51 - ------Successfully got the s3 client------
+2025-03-13 11:29:29.841 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:16 - -------Starting decryption and initiating the s3 client-------
+2025-03-13 11:29:29.845 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:28 - ------Decryption of aws credentials is successful------
+2025-03-13 11:29:29.845 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:44 - ------Initiating s3 client------
+2025-03-13 11:29:29.882 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:51 - ------Successfully got the s3 client------
+2025-03-13 11:29:30.892 | ERROR    | __main__:upload_to_s3:31 - ------ Error occurred while uploading the file to S3: Need to rewind the stream <botocore.httpchecksum.AwsChunkedWrapper object at 0x0000014D36117E90>, but stream is not seekable. ------
+2025-03-13 11:31:31.139 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:16 - -------Starting decryption and initiating the s3 client-------
+2025-03-13 11:31:31.143 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:28 - ------Decryption of aws credentials is successful------
+2025-03-13 11:31:31.143 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:44 - ------Initiating s3 client------
+2025-03-13 11:31:31.179 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:51 - ------Successfully got the s3 client------
+2025-03-13 11:31:32.165 | ERROR    | __main__:upload_to_s3:31 - ------ Error occurred while uploading the file to S3: Failed to upload E:/spark_project01/files/transformed_data/parquet/part-00000-ed1c252d-c7ea-4d8b-9c5b-a9f28844dc78-c000.snappy.parquet to sparks3bucketprojj1/transformed_data/part-00000-ed1c252d-c7ea-4d8b-9c5b-a9f28844dc78-c000.snappy.parquet: An error occurred (NoSuchBucket) when calling the PutObject operation: The specified bucket does not exist ------
+2025-03-13 11:34:01.733 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:16 - -------Starting decryption and initiating the s3 client-------
+2025-03-13 11:34:01.733 | INFO     | src.main.utility.decrypt_s3_client_object:decrypt_credentials:28 - ------Decryption of aws credentials is successful------
+2025-03-13 11:34:01.733 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:44 - ------Initiating s3 client------
+2025-03-13 11:34:01.779 | INFO     | src.main.utility.decrypt_s3_client_object:get_s3_client:51 - ------Successfully got the s3 client------

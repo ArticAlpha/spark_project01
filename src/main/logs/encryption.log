@@ -15,3 +15,6 @@
 2025-02-06 10:54:49.599 | INFO     | __main__:encrypt_credentials:13 - starting encryption for aws credentials
 2025-02-06 10:54:49.606 | SUCCESS  | __main__:encrypt_credentials:42 - AWS credentials encrypted and saved to credentials.enc.
         
+2025-03-13 11:24:28.888 | INFO     | __main__:encrypt_credentials:13 - starting encryption for aws credentials
+2025-03-13 11:24:29.046 | SUCCESS  | __main__:encrypt_credentials:42 - AWS credentials encrypted and saved to credentials.enc.
+        
